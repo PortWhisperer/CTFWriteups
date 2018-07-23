@@ -1,8 +1,12 @@
-## Welcome to GitHub Pages
+## Vulnhub Writeup #1 Goldeneye
 
-You can use the [editor on GitHub](https://github.com/PortWhisperer/CTFWriteups/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+This is my first writeup, and also the first writeup I know of for the GoldenEye box.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This is described as an intermediate level box that it’s concomitant with some of the challenges in the OSCP training labs. I would tend to agree.
+
+The first step is to run an NMap scan against the system
+A few services are uncovered.
+
 
 ### Markdown
 
