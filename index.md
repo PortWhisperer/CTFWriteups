@@ -22,6 +22,7 @@ The source of terminal.js exposes credentials for a user named Boris. These have
 We use the credentials to login to /sev-home/ and look at the source of the landing page. There is a spiel in the comments about approved “operators”; in addition to mentioning Boris, it gives us another username, Natalya. This comment is easily missed if you're not paying attention and are fooled by the slick whitespace after line 24.
 
 ![comment-sev-home](https://user-images.githubusercontent.com/15524701/43056863-5ef4fc7e-8e04-11e8-989c-395d0797677c.jpeg)
+_tons of white-space_
 ![comment-sev-home2](https://user-images.githubusercontent.com/15524701/43056866-5f4620c2-8e04-11e8-81d7-44807c41bcff.jpeg)
 
 I failed to find additional interesting pages after additional spidering and brute-forcing of this authenticated area of the server and turned back towards the other services discovered by nmap.
@@ -57,19 +58,23 @@ to search for additional comments.
 ![regex](https://user-images.githubusercontent.com/15524701/43056872-5fb8a00c-8e04-11e8-8e65-7de9ec0c7046.jpeg)
 
 
-In addition to comments, emails can be searched for with the following very hackish regex
-(\d@|\w@) or a more proper regex [A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6} 
+In addition to comments, emails can be searched for with the following very hackish PCRE regex
+`(\d@|\w@)` or a more proper PCRE regex `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}` 
 
 The above don’t turn up anything of use. 
 
-After several passes through the app, and source code of the pages, I did eventually find something in the messaging system: a communication between an “admin” and the current user Xenia, which contained another email address, “doak@”. 
+After several passes through the app, and source code of the pages, I did eventually find something in the messaging system: a communication between an “admin” and the current user Xenia, which contained another email address in the admin's email signature, **doak@**. 
 ![messaging](https://user-images.githubusercontent.com/15524701/43056870-5f9233ea-8e04-11e8-9f60-5b92d78bb969.jpeg)
 
-This was missed by the above regexes because it required interaction with the appropriate part of the page in order for the message contents to be returned in a response. After interacting with that page, the first hackish/greedy regex will match on the address.
+This email was missed by the above regexes because it required interaction with the appropriate part of the page in order for the message contents to be returned in a response. However only the first (hackish/greedy) regex will match on the address since it's not formatted properly.
 
 We head back to the SMTP service and run `VRFY doak` which presents us with a message that confirms the user is known to the mailserver. Then we run another bruteforce against the user with the same fasttrack.txt wordlist.
 
-Upon getting the users messages with STAT (to view the number of messages) and RETR x (where x is the message number), we obtain a hint that there's directory which contains some sort of useful information that can't be communicated over email. We travel to the directory and all we find there is an image. I downloaded the image and ran `strings` over it and some of the exif data appeared to contain a base64 encoded string. I decoded this with 
+Upon getting the users messages with **STAT** (to view the number of messages) and **RETR x** (where x is the message number), we obtain credentials for dr_doak's Moodle account. 
+
+
+
+a hint pointing us to another directory on the server which contains some sort of useful information that can't be communicated over email. We travel to the directory and all we find there is an image. I downloaded the image and ran `strings` over it and some of the exif data appeared to contain a base64 encoded string. I decoded this with 
 `python -c 'import base64;s=base64.b64decode("eFdpbnRlcjE5OTV4IQ==");print s'`
 
 administrator credentials for the Moodle site at severnaya-station.com/gnocertdir. 
