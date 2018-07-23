@@ -2,7 +2,7 @@
 
 This is my first writeup, and also the first writeup I know of for the GoldenEye box.
 
-This is described as an intermediate level box that it’s concomitant with some of the challenges in the OSCP training labs. I would tend to agree.
+This is described as an intermediate level box that's concomitant with some of the challenges in the OSCP training labs. I would tend to agree.
 
 The first step is to run an NMap scan against the system
 A few services are uncovered.
