@@ -8,15 +8,6 @@ The first step is to run an NMap scan against the system
 A few services are uncovered.
 ![tcpnmap](https://user-images.githubusercontent.com/15524701/43056876-6018ca72-8e04-11e8-9c9e-b6f5edcc0d1b.jpeg)
 
-
-
-This is my first writeup, and also the first writeup i know of for the GoldenEye box.
-
-This is described as an intermediate level box that it’s concomitant with some of the challenges in the OSCP training labs. I would tend to agree.
-
-The first step is to run an NMap scan against the system
-A few services are uncovered.
-
 I always recon webservices first. Some text appears on the index.html page of the HTTP server listening on port 80. When the text finishes printing, it tells us to login at /sev-home/. 
 
 Before doing that, I spidered spidering the page starting off at index.html and wound up finding a few items linked. I reviewed the source, but terminal.js (linked via a `src` tag in index.html) turned up gold. 
@@ -24,7 +15,6 @@ Before doing that, I spidered spidering the page starting off at index.html and 
 
 ![comment-terminal](https://user-images.githubusercontent.com/15524701/43056867-5f586156-8e04-11e8-80de-ba1b0c06dbc6.jpeg)
 
-![regex](https://user-images.githubusercontent.com/15524701/43056872-5fb8a00c-8e04-11e8-8e65-7de9ec0c7046.jpeg)
 ![sniper](https://user-images.githubusercontent.com/15524701/43056873-5fdb04a8-8e04-11e8-8ea1-33ba3a09d36c.png)
 
 
@@ -66,6 +56,8 @@ This application hosted here is called Moodle and appears to be an education con
 (/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|(?=<!--)([\s\S]*?)-->)
 
 to search for additional comments.
+
+![regex](https://user-images.githubusercontent.com/15524701/43056872-5fb8a00c-8e04-11e8-8e65-7de9ec0c7046.jpeg)
 
 
 In addition to comments, emails can be searched for with the following very hackish regex
