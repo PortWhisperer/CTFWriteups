@@ -15,9 +15,6 @@ Before doing that, I spidered spidering the page starting off at index.html and 
 
 ![comment-terminal](https://user-images.githubusercontent.com/15524701/43056867-5f586156-8e04-11e8-80de-ba1b0c06dbc6.jpeg)
 
-![sniper](https://user-images.githubusercontent.com/15524701/43056873-5fdb04a8-8e04-11e8-8ea1-33ba3a09d36c.png)
-
-
 The source of terminal.js exposes credentials for a user named Boris. These have a strange encoding that’s difficult to Google for since the search feature will filter ampersands and hash symbols, so I searched for “ampersand hash encoding”. The results indicated the associated password is encoded as semi-colon delimited HTML entities. We convert them into ASCII and get the credentials for user Boris with the following Python 2 one-liner which leverages the stdlib:
 
 python -c 'import HTMLParser;h=HTMLParser.HTMLParser();s= h.unescape("&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;");print s'
