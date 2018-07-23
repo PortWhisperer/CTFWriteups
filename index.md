@@ -63,18 +63,24 @@ In addition to comments, emails can be searched for with the following very hack
 
 The above don’t turn up anything of use. 
 
-After several passes through the app, and source code of the pages, I did eventually find something in the messaging system: a communication between an “admin” and the current user Xenia, which contained another email address in the admin's email signature, **doak@**. 
+After several passes through the app, and source code of the pages, I did eventually find something in the messaging system: a communication with  another user, "dr doak", which contained mention of another email address, **doak@**. 
 ![messaging](https://user-images.githubusercontent.com/15524701/43056870-5f9233ea-8e04-11e8-9f60-5b92d78bb969.jpeg)
 
 This email was missed by the above regexes because it required interaction with the appropriate part of the page in order for the message contents to be returned in a response. However only the first (hackish/greedy) regex will match on the address since it's not formatted properly.
 
-We head back to the SMTP service and run `VRFY doak` which presents us with a message that confirms the user is known to the mailserver. Then we run another bruteforce against the user with the same fasttrack.txt wordlist.
+We head back to the SMTP service and run `VRFY doak` which presents us with a message that confirms the user is known to the mailserver. Then we run another bruteforce against the user with the same fasttrack.txt wordlist and quickly secure a valid creds.
 
-Upon getting the users messages with **STAT** (to view the number of messages) and **RETR x** (where x is the message number), we obtain credentials for dr_doak's Moodle account. 
+Upon getting the users messages with **STAT** (to view the number of messages) and **RETR x** (where x is the message number), we obtain credentials for dr_doak's Moodle account. We once again enumerate Moodle, but this time in the context of the new user's account. There's a file which has been uploaded by the user which points us to a hidden web directory.
+
+![dr_doak_hint](https://user-images.githubusercontent.com/15524701/43061197-e9acb59a-8e19-11e8-93a5-5d22a67f5564.jpeg)
 
 
+a hint pointing us to another directory on the server which contains some sort of useful information that can't be communicated over email. We travel to the directory and all we find there is an image. 
 
-a hint pointing us to another directory on the server which contains some sort of useful information that can't be communicated over email. We travel to the directory and all we find there is an image. I downloaded the image and ran `strings` over it and some of the exif data appeared to contain a base64 encoded string. I decoded this with 
+![dr_doak_hint2](https://user-images.githubusercontent.com/15524701/43061198-e9c125b6-8e19-11e8-9771-52f6257ef385.jpeg)
+
+
+I downloaded the image and ran `strings` over it and some of the exif data appeared to contain a base64 encoded string. I decoded this with 
 `python -c 'import base64;s=base64.b64decode("eFdpbnRlcjE5OTV4IQ==");print s'`
 
 administrator credentials for the Moodle site at severnaya-station.com/gnocertdir. 
