@@ -17,7 +17,7 @@ Before doing that, I spidered spidering the page starting off at index.html and 
 
 The source of terminal.js exposes credentials for a user named Boris. These have a strange encoding that’s difficult to Google for since the search feature will filter ampersands and hash symbols, so I searched for “ampersand hash encoding”. The results indicated the associated password is encoded as semi-colon delimited HTML entities. We convert them into ASCII and get the credentials for user Boris with the following Python 2 one-liner which leverages the stdlib:
 
-python -c 'import HTMLParser;h=HTMLParser.HTMLParser();s= h.unescape("&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;");print s'
+`python -c 'import HTMLParser;h=HTMLParser.HTMLParser();s= h.unescape("&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;");print s'`
 
 We use the credentials to login to /sev-home/ and look at the source of the landing page. There is a spiel in the comments about approved “operators”; in addition to mentioning Boris, it gives us another username, Natalya. This comment is easily missed if you're not paying attention and are fooled by the slick whitespace after line 24.
 
@@ -29,11 +29,11 @@ I failed to find additional interesting pages after additional spidering and bru
 Firstly I used the VRFY command on the SMTP server to verify usernames Boris and Natalya were known to the mail server, which they were. I then tried to bruteforce both of their accounts on the pop3 service listening on port 55007 using a wordlist i constructed with cewl, as well as some Kali wordlists.
 
 Spidering and scraping with cewl
-`cewl http://172.16.2.33/sev-home/ --auth_user=boris --auth_pass=InvincibleHack3r --auth_type=basic` > /tmp/Goldeneye-WL.txt`
+`cewl http://172.16.2.33/sev-home/ --auth_user=boris --auth_pass=InvincibleHack3r --auth_type=basic > /tmp/Goldeneye-WL.txt`
 
 Attacking with Hydra
-hydra -e nsr 172.16.2.33 pop3 -l natalya -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V
-hydra -e nsr 172.16.2.33 pop3 -l boris -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V
+`hydra -e nsr 172.16.2.33 pop3 -l natalya -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V
+hydra -e nsr 172.16.2.33 pop3 -l boris -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V`
 
 The fasttrack.txt list (not the one generated with Cewl) was sufficient to crack both users mail accounts. 
 
@@ -50,7 +50,7 @@ It turns out the subdirectories would only be accessible if we accessed them by 
 
 This application hosted here is called Moodle and appears to be an education content management system. This application exposed a login form which accepted the newly found credentials for xenia. I clicked through each area of the application, checking for interesting information and using OWASP ZAP and it’s proxy to map things out. ZAP has a feature that allows using regex to search through HTTP responses, so I used the regex 
 
-(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|(?=<!--)([\s\S]*?)-->)
+`(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|(?=<!--)([\s\S]*?)-->)`
 
 to search for additional comments.
 
