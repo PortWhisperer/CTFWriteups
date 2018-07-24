@@ -17,7 +17,9 @@ Before doing that, I spidered spidering the page starting off at index.html and 
 
 The source of terminal.js exposes credentials for a user named Boris. These have a strange encoding that’s difficult to Google for since the search feature will filter ampersands and hash symbols, so I searched for “ampersand hash encoding”. The results indicated the associated password is encoded as semi-colon delimited HTML entities. We convert them into ASCII and get the credentials for user Boris with the following Python 2 one-liner which leverages the stdlib:
 
-`python -c 'import HTMLParser;h=HTMLParser.HTMLParser();s= h.unescape("&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;");print s'`
+```
+python -c 'import HTMLParser;h=HTMLParser.HTMLParser();s= h.unescape("&#73;&#110;&#118;&#105;&#110;&#99;&#105;&#98;&#108;&#101;&#72;&#97;&#99;&#107;&#51;&#114;");print s'
+```
 
 We use the credentials to login to /sev-home/ and look at the source of the landing page. There is a spiel in the comments about approved “operators”; in addition to mentioning Boris, it gives us another username, Natalya. This comment is easily missed if you're not paying attention and are fooled by the slick whitespace after line 24.
 
