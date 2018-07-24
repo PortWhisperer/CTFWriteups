@@ -52,16 +52,22 @@ On trying to navigate to the same directory via the IP address of the host, a fa
 It turns out the subdirectories would only be accessible if we accessed them by navigating to hostname severnaya-station[.]com. This can be done by mapping the ip of the VM to severnaya-station.com in the /etc/hosts file on your attacker machine (this /etc/hosts hint was provided in one of the exposed emails).
 
 This application hosted here is called Moodle and appears to be an education content management system. This application exposed a login form which accepted the newly found credentials for xenia. I clicked through each area of the application, checking for interesting information and using OWASP ZAP and it’s proxy to map things out. ZAP has a feature that allows using regex to search through HTTP responses, so I used the regex 
-
-`(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|(?=<!--)([\s\S]*?)-->)`
-
+```
+(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|(?=<!--)([\s\S]*?)-->)
+```
 to search for additional comments.
 
 ![regex](https://user-images.githubusercontent.com/15524701/43056872-5fb8a00c-8e04-11e8-8e65-7de9ec0c7046.jpeg)
 
 
 In addition to comments, emails can be searched for with the following very hackish PCRE regex
-`(\d@|\w@)` or a more proper PCRE regex `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}` 
+```
+(\d@|\w@)
+``` 
+or a more proper PCRE regex 
+```
+[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}
+```
 
 The above don’t turn up anything of use. 
 
@@ -81,8 +87,10 @@ The file contents disclose another hidden resource on the server which apparentl
 
 
 I downloaded the image hosted at that location and ran `strings` over it and some of the exif data appeared to contain a base64 encoded string. 
-I decoded this with `python -c 'import base64;s=base64.b64decode("eFdpbnRlcjE5OTV4IQ==");print s'`
-
+I decoded this with 
+```
+python -c 'import base64;s=base64.b64decode("eFdpbnRlcjE5OTV4IQ==");print s'
+```
 
 
 This next part was a bit difficult. 
