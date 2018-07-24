@@ -32,9 +32,11 @@ I failed to find additional interesting pages after additional spidering and bru
 Firstly I used the VRFY command on the SMTP server to verify usernames Boris and Natalya were known to the mail server, which they were. I then tried to bruteforce both of their accounts on the pop3 service listening on port 55007 using a wordlist i constructed with cewl, as well as some Kali wordlists.
 
 Spidering and scraping with cewl
+
 `cewl http://172.16.2.33/sev-home/ --auth_user=boris --auth_pass=InvincibleHack3r --auth_type=basic > /tmp/Goldeneye-WL.txt`
 
 Attacking with Hydra
+
 `hydra -e nsr 172.16.2.33 pop3 -l natalya -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V
 hydra -e nsr 172.16.2.33 pop3 -l boris -P /usr/share/wordlists/fasttrack.txt  -s 55007 -V`
 
@@ -52,9 +54,11 @@ On trying to navigate to the same directory via the IP address of the host, a fa
 It turns out the subdirectories would only be accessible if we accessed them by navigating to hostname severnaya-station[.]com. This can be done by mapping the ip of the VM to severnaya-station.com in the /etc/hosts file on your attacker machine (this /etc/hosts hint was provided in one of the exposed emails).
 
 This application hosted here is called Moodle and appears to be an education content management system. This application exposed a login form which accepted the newly found credentials for xenia. I clicked through each area of the application, checking for interesting information and using OWASP ZAP and it’s proxy to map things out. ZAP has a feature that allows using regex to search through HTTP responses, so I used the regex 
+
 ```
 (/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|(?=<!--)([\s\S]*?)-->)
 ```
+
 to search for additional comments.
 
 ![regex](https://user-images.githubusercontent.com/15524701/43056872-5fb8a00c-8e04-11e8-8e65-7de9ec0c7046.jpeg)
@@ -64,7 +68,9 @@ In addition to comments, emails can be searched for with the following very hack
 ```
 (\d@|\w@)
 ``` 
+
 or a more proper PCRE regex 
+
 ```
 [A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}
 ```
