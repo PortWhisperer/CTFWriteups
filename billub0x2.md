@@ -29,7 +29,7 @@ This next part was ratehr exasperating to me, and I ripped some holes in my meth
 
 Next I found a hash for user indishell in /etc/passwd. I tried to crack this with several million words from the SecList passwords dump and again failed. At this point I tried to go back through all of the directories and running applications looking for odd things, but turned up nil. 
 
-Finally, I gave up and decided to peek at a walkthrough. It turned out my error was not realizing that /etc/passwd had world writeable permissions. This allows us to set the effective permissions for any user as well as adjust the password of any user. As such, it's possible to generate an /etc/passwd compatible password with the crypt function and overwrite indishell's currently existing hash with it. Next, we simply have to change indishell's UID/GUID to 0.
+Finally, I gave up and decided to peek at a walkthrough. It turned out my error was not realizing that /etc/passwd had world writeable permissions. This allows us to set the effective permissions for any user as well as adjust the password of any user. As such, it's possible to generate an /etc/passwd compatible password with the crypt function and overwrite indishell's currently existing hash with it. Next, we simply have to change indishell's UID/GID to 0.
 
 Since I was manually enumerating I missed this obvious vector. If I had used linenum.sh or a similar post exploitation enumeration script, I would have found this with ease.
 
