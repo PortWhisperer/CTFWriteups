@@ -32,12 +32,16 @@ What these mean
 
 ## Attacking TCP/80/HTTP
 
-My typical procedure is to run a crawler such as gobuster and then have ZAP or BurpSuite proxy the traffic so they maintain a nice site map. In addition, this helps to seed the spidering features on both of those applications. In addition, I picked at random one of the most common/popular user agents. This is to avoid the "script-kiddie" mistake of brute forcing a page and advertising it with a user agent that names your brute forcing tool.
+My typical procedure is to run a directory crawler that supports a proxy such as dirb and then have ZAP or BurpSuite proxy the traffic, causing them to automatically construct a nice site map. In addition, this helps to seed the spidering features on both of those applications:
 
 ```
 dirb https://172.16.2.42 /usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-small.txt -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" -p http://127.0.0.1:8080
 
 ```
+
+\*\*Note\*\* when proxying a scanner like this, make sure you filter 404s out of the site map before starting. If not done, your site map will fill up with 1000s of entries for 404 responses. Burp filters 4xx by default (which could be too much as 403s can be very useful) but ZAP doesn't.
+
+In addition, I picked at random one of the most common/popular user agents. This is to avoid the "script-kiddie" mistake of brute forcing a page and advertising it with a user agent that names your brute forcing tool.
 
 [2020-Oct-04 06:02:07 UTC] > used zsteg to decode challenge  
 [2020-Oct-04 06:12:14 UTC] > found some semi useful comments on the admininstrator/index.php tab. also found a flag in /images/flag.txt.txt. gained appreciation for nmap --script http-\* particularly the comment enum functionality. would like to build out comment function a bit further  
