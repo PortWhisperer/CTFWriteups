@@ -30,6 +30,15 @@ What these mean
 **80/HTTP**: Web apps are always a rich source of vulns, so this is immediately high priority. We get a version for the apache http daemon which could turn up a vuln as a result of the -sCV tag the (sC triggers some basic NSE scripts)  
 **5355/LLMNR** link-local multicast name resolution is a service that supports DNS on local subnets [wikipedia](https://en.wikipedia.org/wiki/Link-Local_Multicast_Name_Resolution). Most likely this is working in conjunction with the DNS service on port 53. It's not immediately clear why the box is running this, and ultimately the exploitation vector had nothing to do with it.
 
+## Attacking TCP/80/HTTP
+
+My typical procedure is to run a crawler such as gobuster and then have ZAP or BurpSuite proxy the traffic so they maintain a nice site map. In addition, this helps to seed the spidering features on both of those applications. In addition, I picked at random one of the most common/popular user agents. This is to avoid the "script-kiddie" mistake of brute forcing a page and advertising it with a user agent that names your brute forcing tool.
+
+```
+dirb https://172.16.2.42 /usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-small.txt -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" -p http://127.0.0.1:8080
+
+```
+
 [2020-Oct-04 06:02:07 UTC] > used zsteg to decode challenge  
 [2020-Oct-04 06:12:14 UTC] > found some semi useful comments on the admininstrator/index.php tab. also found a flag in /images/flag.txt.txt. gained appreciation for nmap --script http-\* particularly the comment enum functionality. would like to build out comment function a bit further  
 [2020-Oct-09 05:44:06 UTC] > stuck trying to upload shell. form accepts images and server is running php. php rev shell not working. modifying extension to php allows upload, but server complains of errors in the png file. listerner doesnt catch reverse shell.  
