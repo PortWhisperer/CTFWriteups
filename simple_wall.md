@@ -43,7 +43,25 @@ dirb https://172.16.2.42 /usr/share/wordlists/SecLists-master/Discovery/Web-Cont
 
 In addition, I picked at random one of the most common/popular user agents. This is to avoid the "script-kiddie" mistake of brute forcing a page and advertising it with a user agent that names your brute forcing tool.
 
-[2020-Oct-04 06:02:07 UTC] > used zsteg to decode challenge  
+a /administrator page was picked up by the above wordlist. It redirected to an index.php which possessed a login form, which I manually tested for SQL injectability. Injection failed so I attempted to brute force it by testing out some predictable creds and passwords. I also used Cewl to scrape username/password ideas, and made lists with that. All of these failed.
+
+```bash
+sqlmap 172.16.2.42/administrator/index.php --forms
+```
+
+```bash
+cewl 172.16.2.42
+```
+
+```bash
+for val in (ls /usr/share/wordlists/SecLists-master/Passwords/Common-Credentials/10-million*.txt)
+            echo "****************************** $val ******************************"
+            hydra -lmrrobot -P $val 172.16.2.42 http-post-form "/administrator/index.php:username=^USER^&pass=^PASS^:F=Failed" -e nsr -t27 -f -I
+    end
+
+```
+
+anused zsteg to decode challenge  
 [2020-Oct-04 06:12:14 UTC] > found some semi useful comments on the admininstrator/index.php tab. also found a flag in /images/flag.txt.txt. gained appreciation for nmap --script http-\* particularly the comment enum functionality. would like to build out comment function a bit further  
 [2020-Oct-09 05:44:06 UTC] > stuck trying to upload shell. form accepts images and server is running php. php rev shell not working. modifying extension to php allows upload, but server complains of errors in the png file. listerner doesnt catch reverse shell.  
 [2020-Oct-09 05:45:58 UTC] > had success with the zsteg tool after trying close to 10 tools that couldn't identify the stego in hidden.png. embarrassingly actually contacted author of the box, who also suggested zsteg. has been added to arsenal  
