@@ -1,5 +1,7 @@
 Without further ado.
 
+# Pre-Att&ck: technical information gathering
+
 Kicked off the nmap scan
 
 ```
@@ -30,12 +32,14 @@ What these mean
 **80/HTTP**: Web apps are always a rich source of vulns, so this is immediately high priority. We get a version for the apache http daemon which could turn up a vuln as a result of the -sCV tag the (sC triggers some basic NSE scripts)  
 **5355/LLMNR** link-local multicast name resolution is a service that supports DNS on local subnets [wikipedia](https://en.wikipedia.org/wiki/Link-Local_Multicast_Name_Resolution). Most likely this is working in conjunction with the DNS service on port 53. It's not immediately clear why the box is running this, and ultimately the exploitation vector had nothing to do with it.
 
+# Att&ck: Initial Access
+
 ## Attacking TCP/80/HTTP
 
 My typical procedure is to run a directory crawler that supports a proxy such as dirb and then have ZAP or BurpSuite proxy the traffic, causing them to automatically construct a nice site map. In addition, this helps to seed the spidering features on both of those applications:
 
 ```
-dirb https://172.16.2.42 /usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-small.txt -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" -p http://127.0.0.1:8080
+dirb http://172.16.2.42 /usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-small.txt -a "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" -p http://127.0.0.1:8080
 
 ```
 
@@ -79,3 +83,11 @@ anused zsteg to decode challenge
 ```zsh
 for x in `cat /usr/share/wordlists/SecLists-master/Passwords/Common-Credentials/10-million-password-list-top-1000.txt`; do echo $x|./buffer|grep -vi "errada"|grep -vi "Digite a senha"|grep -vi "^\s*$"; done
 ```
+
+# anti forensics techniques
+
+# persistence techniques
+
+# data exfiltration
+
+# impact
