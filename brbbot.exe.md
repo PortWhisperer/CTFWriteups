@@ -9,7 +9,7 @@ in x64dbg, this is represented as follows:
 ![](fastcall-1.png)
 
 1. The line at which execution is paused by our breakpoint. We can see [CryptDecrypt](https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptdecrypt) is being called
-   called at this step.
+   at this step.
 
 2. Here we see the arguments being passed to CryptDecrypt, each argument in it's own register or stack frame.
    Per the CryptDecrypt documentation, the fifth parameter (at RSP+20) points to the location in memory with the data to be decrypted.
