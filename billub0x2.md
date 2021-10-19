@@ -1,4 +1,4 @@
-##Vulnhub Writeup #2: Billu B0x 2
+## Vulnhub Writeup #2: Billu B0x 2
 https://www.vulnhub.com/entry/billu-b0x-2,238/
 
 This is my second vulnhub writeup. Things didn't go as well for me with this box - I had some holes in my approach.
