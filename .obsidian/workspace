@@ -1,0 +1,114 @@
+{
+  "main": {
+    "id": "769200efa63b4fb0",
+    "type": "split",
+    "children": [
+      {
+        "id": "d59111e7ee91a190",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Sumo.md",
+            "mode": "source"
+          }
+        },
+        "group": "e57f225df505edba"
+      },
+      {
+        "id": "b6ba36627205062b",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Sumo.md",
+            "mode": "preview"
+          }
+        },
+        "group": "e57f225df505edba"
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d44522475df1f90a",
+    "type": "split",
+    "children": [
+      {
+        "id": "20fdb38432e4b046",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a4071a34e803dc4f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "d7884e845b31ac60",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "59051b613ab01b4b",
+    "type": "split",
+    "children": [
+      {
+        "id": "7cca91eacacb4064",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4eeb00431d0fae62",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Sumo.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 685
+  },
+  "active": "d59111e7ee91a190",
+  "lastOpenFiles": [
+    "Sumo.md",
+    "Nix-post-exploit-ssh_port_fwd_listning_ports.md",
+    "Nix-post-exploit-bash_enum_script.md",
+    "Static Binary Resources.md",
+    "simple_wall.md",
+    "web_enum_resources.md",
+    "MrRobot.md",
+    "goldeneye.md",
+    "fastcall-1.png",
+    "brbbot.exe.md"
+  ]
+}

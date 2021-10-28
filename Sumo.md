@@ -4,6 +4,7 @@
 
 - Looking only for 200s in gobuster caused me to miss CGI-Bin dir. 
 - Not enabling recursion in your automations can make enumeration a pain
+- Large desire to read approaches that didn't use Nikto to discover the mod-cgi vulnerability
 
 ## Getting started
 
@@ -25,6 +26,7 @@ Semi-Manual techniques
     - I wasn'table to figure out a way to identify these files without Nikto, or what method Nikto used to find them, but it may be related to mod_negotiate being in use on the Apache server
 - Gobuster 
   - Didn't get 200s for pages other than index.html with Seclists Discovery Wordlists
+  - After having success with Nikto, wrote a script at  [web_enum_resources](web_enum_resources) which was able to identify this folder, as well as a default "it works! file". From here it'd probably take some deduction and research on the cgi directory to ascertain that we could exploit something here.
 
 ### **Exploiting found services**
 Scanned for shellshock vulnerabilities in MSF. 
@@ -39,6 +41,8 @@ The ```apache_mod_cgi_bash_env_exec``` exploit was returned as an available msf 
 - Home directory was also quite bare. 
 - Checked listening connections which didn't find anything noteworthy. 
 - Checked distro/kernel version and compared it against searchsploit, which turned up an exploit
+- Finally just wrote a script that would execute post_enum for me at [Nix-post-exploit-bash_enum_script](Nix-post-exploit-bash_enum_script)
+- 
 ```text 
 searchsploit ubuntu 3.2.0 
 ```

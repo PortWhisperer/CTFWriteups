@@ -1,0 +1,1 @@
+[GitHub - andrew-d/static-binaries: Various *nix tools built as statically-linked binaries](https://github.com/andrew-d/static-binaries)
