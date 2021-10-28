@@ -5,9 +5,9 @@
 - Looking only for 200s in gobuster caused me to miss CGI-Bin dir. 
 - Not enabling recursion in your automations can make enumeration a pain
 - Large desire to read approaches that didn't use Nikto to discover the mod-cgi vulnerability
-
 ## Getting started
-
+MITRE ATT&CK Matrix from [Mitre-Attack-Navigator](https://mitre-attack.github.io/attack-navigator)
+![](2021-10-28-01-58-47.png)
 
 ### nmap output
 ```
