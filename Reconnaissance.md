@@ -1,4 +1,4 @@
-# Web (HTTP) enumeration resources
+# Reconnaissance 
 
 [Bash scripting resources: for-loops](https://linuxhint.com/bash_loop_list_strings/)
 ### HTTP server dir scanning Script
@@ -48,3 +48,6 @@ done
 #cat "$target-gobuster_output.txt"
 #egrep "(200|4\d{2})"|grep -vi "404" ##//watch for dirs/files with 404 in name
 ```
+
+
+Tags: #Reconnaissance #Scripts

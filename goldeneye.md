@@ -140,7 +140,7 @@ After setting up my listener, I then navigated to a page that had a text editor 
 Clicking the button triggered my command and the reverse shell was sent to the C2 system in the context of the remote user www-data, the low-priv apache account meant to prevent successful RCE attacks against Apache servers from giving root privileges.
 
 
-#Post Exploitation
+##### Post Exploitation
 First, I upgraded my shell to a pseudo tty. This helps increase the sorts of commands we can run without failure, which can include things such as the `su` and `cd`. Since ``python`` is installed, we can use the trusty pty module:
 python -c 'import pty;pty.spawn("/bin/bash")'
 
@@ -169,4 +169,7 @@ I ran the compiled binary and the repl shifted to a newline and displayed a symb
 Running whoami confirmed I had root privileges. I navigated to the /root/ dir, viewed the flag, and treated myself to the reward left by the author, which anyone who’s seen Goldeneye will appreciate.
 ![flag](https://user-images.githubusercontent.com/15524701/43056868-5f6dea80-8e04-11e8-903e-faef98967592.jpeg)
 ![flag_anim](https://user-images.githubusercontent.com/15524701/43056869-5f81dfb8-8e04-11e8-8736-58a2fdac56a0.jpeg)
-#
+
+
+Tags:
+#vulnhub #linux

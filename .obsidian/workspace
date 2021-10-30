@@ -4,15 +4,30 @@
     "type": "split",
     "children": [
       {
-        "id": "767d958b07b0fb76",
+        "id": "13aa4c0b1196b1b9",
         "type": "leaf",
+        "dimension": 50,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Sumo.md",
+            "mode": "source"
+          }
+        },
+        "group": "ce1ebf5faffe095f"
+      },
+      {
+        "id": "e69059d8ffbba4c1",
+        "type": "leaf",
+        "dimension": 50,
         "state": {
           "type": "markdown",
           "state": {
             "file": "Sumo.md",
             "mode": "preview"
           }
-        }
+        },
+        "group": "ce1ebf5faffe095f"
       }
     ],
     "direction": "vertical"
@@ -39,7 +54,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#Discovery",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -48,7 +63,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -75,7 +91,7 @@
                 "showSearch": false,
                 "searchQuery": "",
                 "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               }
             }
           }
@@ -83,19 +99,20 @@
       }
     ],
     "direction": "horizontal",
-    "width": 685
+    "width": 685,
+    "collapsed": true
   },
-  "active": "767d958b07b0fb76",
+  "active": "13aa4c0b1196b1b9",
   "lastOpenFiles": [
     "Sumo.md",
-    "Pasted image 20211028013244.png",
+    "Discovery.md",
+    "Reconnaissance.md",
     "Nix-post-exploit-ssh_port_fwd_listning_ports.md",
-    "Nix-post-exploit-bash_enum_script.md",
-    "Static Binary Resources.md",
-    "simple_wall.md",
-    "web_enum_resources.md",
-    "MrRobot.md",
+    "2021-10-28-01-58-47.png",
+    "billub0x2.md",
     "goldeneye.md",
-    "fastcall-1.png"
+    "brbbot.exe.md",
+    "fastcall-1.png",
+    "File_transfers.md"
   ]
 }

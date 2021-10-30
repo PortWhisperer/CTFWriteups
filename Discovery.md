@@ -1,3 +1,8 @@
+# Discovery
+
+## Linux 
+
+##### Discovery Script
 ```bash
 #!/bin/bash
 #set -x
@@ -114,3 +119,6 @@ done
 
 
 ```
+
+Tags 
+#Discovery #Scripts 
