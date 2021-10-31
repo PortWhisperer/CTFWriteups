@@ -1,18 +1,11 @@
 # Vulnhub Writeup #5: Sumo
-
-## Key lessons learned:
-- Looking only for 200s in gobuster caused me to miss CGI-Bin dir. 
-- Not enabling recursion in your automations can make enumeration a pain
-- Large desire to read approaches that didn't use Nikto to discover the mod-cgi vulnerability
--Modify shell path early on to avoid "missing" binaries with ```export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin```
-
-
 ## MITRE Att&ck Overview
 
 ![](2021-10-28-01-58-47.png)
 MITRE ATT&CK matrix made with [Mitre-Attack-Navigator](https://mitre-attack.github.io/attack-navigator)
 
 ## Reconnaissance
+--------------------------
 ```
 PORT   STATE SERVICE VERSION
 22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)
@@ -20,7 +13,7 @@ PORT   STATE SERVICE VERSION
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-####Techniques and procedures
+### Techniques and procedures
 - Opened up ZAP and crawled host's port 80 HTTP server; found nothing of note. 
 - Nikto 
   - found this server was vuln to shellshock
@@ -33,7 +26,8 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
   2) Knowing that CGI is extremely vulnerable
 No other write-ups I've found have illustrated using pure deduction to figure this vector out.
 
-### Initial Access, Execution & Command and Control
+## Initial Access, Execution & Command and Control
+--------
 Scanned for shellshock vulnerabilities in MSF (Searchsploit could've been used here as well):
 ```
 search shellshock
@@ -56,7 +50,8 @@ sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh
 #MetasploitScripts
 
 
-## ** Discovery > Collection > Exfiltration**
+## Discovery > Collection > Exfiltration
+--------
 - Checked running processes with ps -aux. Didn't find anything noteworthy. 
 - Home directory was also quite bare. 
 - Checked listening connections which didn't find anything noteworthy. 
@@ -64,6 +59,7 @@ sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh
 - Finally just wrote a script that would execute post_enum for me at [Discovery](Discovery.md)
 
 ## Privilege Escalation
+--------
 Simply looking up the kernel version in SearchSploit uncovered kernel exploit based LPE
 ```text 
 searchsploit ubuntu 3.2.0 
@@ -85,7 +81,19 @@ export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
 python -c 'import pty; pty.spawn("/bin/sh")'
 ```
 
+
+
+## Appendix: 
+---
+## Key lessons learned:
+---
+- Looking only for 200s in gobuster caused me to miss CGI-Bin dir. 
+- Not enabling recursion in your automations can make enumeration a pain
+- Large desire to read approaches that didn't use Nikto to discover the mod-cgi vulnerability
+-Modify shell path early on to avoid "missing" binaries with ```export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin```
+
 ## Technical Issues Encountered
+---
 Encountered 
 ``` 
 collect2: cannot find 'ld' when compiling in /tmp/
