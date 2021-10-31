@@ -1,8 +1,4 @@
 # Vulnhub Writeup #5: Sumo
----
----
----
-
 ## MITRE Att&ck Overview
 ---
 ![](2021-10-28-01-58-47.png)
@@ -26,8 +22,8 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - Gobuster ( #Crawling )
   - Didn't get 200s for pages other than index.html with Seclists Discovery Wordlists
   - After having success with Nikto, wrote a script at  [Reconnaissance](Reconnaissance.md) which was able to identify this folder, as well as a default "it works! file". From here there seem to be 2 ways to find the vector:
-  1) Nikto
-  2) Knowing that CGI is extremely vulnerable
+    1) Nikto
+    2) Knowing that CGI is extremely vulnerable
 No other write-ups I've found have illustrated using pure deduction to figure this vector out.
 
 ## Initial Access, Execution & Command and Control
