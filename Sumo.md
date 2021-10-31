@@ -4,8 +4,9 @@
 - Looking only for 200s in gobuster caused me to miss CGI-Bin dir. 
 - Not enabling recursion in your automations can make enumeration a pain
 - Large desire to read approaches that didn't use Nikto to discover the mod-cgi vulnerability
--Modify shell path early on to avoid "missing" binaries with
-`export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin `
+-Modify shell path early on to avoid "missing" binaries with ```export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin```
+
+
 ## MITRE Att&ck Overview
 
 ![](2021-10-28-01-58-47.png)
@@ -55,7 +56,7 @@ sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh
 #MetasploitScripts
 
 
-## ** Discovery | Collection | Exfiltration**
+## ** Discovery > Collection > Exfiltration**
 - Checked running processes with ps -aux. Didn't find anything noteworthy. 
 - Home directory was also quite bare. 
 - Checked listening connections which didn't find anything noteworthy. 
