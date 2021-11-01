@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Privilege_Escalation.md",
+            "file": "KernelExploitSelectionMethod_Linux.md",
             "mode": "source"
           }
         },
@@ -21,7 +21,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Privilege_Escalation.md",
+            "file": "KernelExploitSelectionMethod_Linux.md",
             "mode": "preview"
           }
         },
@@ -82,7 +82,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Privilege_Escalation.md",
+                "file": "KernelExploitSelectionMethod_Linux.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -101,8 +101,8 @@
   },
   "active": "13aa4c0b1196b1b9",
   "lastOpenFiles": [
-    "Privilege_Escalation.md",
     "KernelExploitSelectionMethod_Linux.md",
+    "Privilege_Escalation.md",
     "Using KSplice.md",
     "Nix-post-exploit-ssh_port_fwd_listning_ports.md",
     "Reconnaissance.md",
