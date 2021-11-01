@@ -6,28 +6,26 @@
       {
         "id": "13aa4c0b1196b1b9",
         "type": "leaf",
-        "dimension": 50,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Sumo.md",
+            "file": "Privilege_Escalation.md",
             "mode": "source"
           }
         },
-        "group": "ce1ebf5faffe095f"
+        "group": "b5134ec7422c2242"
       },
       {
-        "id": "e69059d8ffbba4c1",
+        "id": "fa1f0e8317ca66b1",
         "type": "leaf",
-        "dimension": 50,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Sumo.md",
+            "file": "Privilege_Escalation.md",
             "mode": "preview"
           }
         },
-        "group": "ce1ebf5faffe095f"
+        "group": "b5134ec7422c2242"
       }
     ],
     "direction": "vertical"
@@ -54,7 +52,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#Discovery",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -84,13 +82,13 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Sumo.md",
+                "file": "Privilege_Escalation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
-                "backlinkCollapsed": false,
+                "backlinkCollapsed": true,
                 "unlinkedCollapsed": false
               }
             }
@@ -99,20 +97,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 685,
-    "collapsed": true
+    "width": 685
   },
-  "active": "e69059d8ffbba4c1",
+  "active": "13aa4c0b1196b1b9",
   "lastOpenFiles": [
+    "Privilege_Escalation.md",
+    "KernelExploitSelectionMethod_Linux.md",
+    "Using KSplice.md",
+    "Nix-post-exploit-ssh_port_fwd_listning_ports.md",
+    "Reconnaissance.md",
     "Sumo.md",
     "Discovery.md",
-    "Reconnaissance.md",
-    "Nix-post-exploit-ssh_port_fwd_listning_ports.md",
     "2021-10-28-01-58-47.png",
     "billub0x2.md",
-    "goldeneye.md",
-    "brbbot.exe.md",
-    "fastcall-1.png",
-    "File_transfers.md"
+    "goldeneye.md"
   ]
 }
