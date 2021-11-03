@@ -1,3 +1,5 @@
+# Gobuster wrapper script
+Automatically selects wordlists and passes them to Gobuster based on desired scan size
 ```bash 
 #get vars from user
 while getopts 't:s:' OPTION; do

@@ -6,11 +6,25 @@
       {
         "id": "139de91bb6a8687f",
         "type": "leaf",
+        "dimension": 21.475953565505804,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Bash Scripting Resources.md",
+            "file": "index.md",
             "mode": "source"
+          }
+        },
+        "group": "6045ea64a4a69567"
+      },
+      {
+        "id": "869ac19c873e4117",
+        "type": "leaf",
+        "dimension": 21.475953565505804,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "index.md",
+            "mode": "preview"
           }
         },
         "group": "6045ea64a4a69567"
@@ -18,25 +32,15 @@
       {
         "id": "344e06fd2c751a8f",
         "type": "leaf",
+        "dimension": 57.04809286898839,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Bash Scripting Resources.md",
-            "mode": "preview"
+            "file": "index.md",
+            "mode": "source"
           }
         },
         "group": "6045ea64a4a69567"
-      },
-      {
-        "id": "cc1a87df8a816b2a",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Offensive Bash Scripts.md",
-            "mode": "source"
-          }
-        }
       }
     ],
     "direction": "vertical"
@@ -77,7 +81,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "59051b613ab01b4b",
@@ -93,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Bash Scripting Resources.md",
+                "file": "index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,15 +118,15 @@
   },
   "active": "139de91bb6a8687f",
   "lastOpenFiles": [
-    "Bash Scripting Resources.md",
+    "index.md",
+    "pentest_frameworks_and_checklists.md",
+    "Privilege_Escalation.md",
+    "Exfiltration.md",
+    "Collection.md",
+    "Gobuster Wrapper.md",
     "Offensive Bash Scripts.md",
     "Discovery.md",
-    "Nmap2searchsploit.md",
-    "Linux Discovery Script.md",
-    "Nix-post-exploit-ssh_port_fwd_listning_ports.md",
-    "HTTP Directory Scanning Script.md",
-    "Reconnaissance.md",
-    "Sumo.md",
-    "KernelExploitSelectionMethod_Linux.md"
+    "Automation.md",
+    "Bash Scripting Resources.md"
   ]
 }
