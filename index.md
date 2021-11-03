@@ -25,6 +25,6 @@ ___
 |Offensive|Defensive|
 |:----:|:----:|
 |[MITRE ATT&CK](https://attack.mitre.org/)|MITRE D3FEND|
-|[ATT&CK navigator](https://mitre-attack.github.io/attack-navigator/)|
-|[A Pentest Checklist](https://docs.google.com/document/d/1drBNRvCt9HsOIqo5xJfEMr3Glkpuk5KSs9iTbWpw6jQ/edit#)|
+|[ATT&CK navigator](https://mitre-attack.github.io/attack-navigator/)||
+|[A Pentest Checklist](https://docs.google.com/document/d/1drBNRvCt9HsOIqo5xJfEMr3Glkpuk5KSs9iTbWpw6jQ/edit#)||
 

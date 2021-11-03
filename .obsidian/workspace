@@ -6,7 +6,7 @@
       {
         "id": "139de91bb6a8687f",
         "type": "leaf",
-        "dimension": 21.475953565505804,
+        "dimension": 50.00000000000001,
         "state": {
           "type": "markdown",
           "state": {
@@ -19,25 +19,12 @@
       {
         "id": "869ac19c873e4117",
         "type": "leaf",
-        "dimension": 21.475953565505804,
+        "dimension": 50.00000000000001,
         "state": {
           "type": "markdown",
           "state": {
             "file": "index.md",
             "mode": "preview"
-          }
-        },
-        "group": "6045ea64a4a69567"
-      },
-      {
-        "id": "344e06fd2c751a8f",
-        "type": "leaf",
-        "dimension": 57.04809286898839,
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "index.md",
-            "mode": "source"
           }
         },
         "group": "6045ea64a4a69567"
