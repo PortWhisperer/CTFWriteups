@@ -7,6 +7,7 @@
 |    3. [Mr Robot](MrRobot.md)     |          juice           |
 | 4. [Simple_Wall](simple_wall.md) |        PDFXCview         |
 | 5. [Sumo](Sumo.md)               |        msdsrv.exe        |
+
 # Operational Resources
 
 |Offensive TTPs|
@@ -18,6 +19,7 @@
 |[Collection](Collection)|
 |[Exfiltration](Exfiltration)|
 |[Impact](Impact)|
+
 # Frameworks and Principals 
 
 |Offensive|Defensive|
