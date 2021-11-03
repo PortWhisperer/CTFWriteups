@@ -1,2 +1,3 @@
 # Automation
-[[Bash]]
+[[Offensive Bash Scripts]]
+[[Bash Scripting Resources]]

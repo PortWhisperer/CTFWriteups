@@ -9,23 +9,34 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Bash.md",
+            "file": "Bash Scripting Resources.md",
             "mode": "source"
           }
         },
         "group": "6045ea64a4a69567"
       },
       {
-        "id": "584a8c9d9edf7878",
+        "id": "344e06fd2c751a8f",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Bash.md",
-            "mode": "source"
+            "file": "Bash Scripting Resources.md",
+            "mode": "preview"
           }
         },
         "group": "6045ea64a4a69567"
+      },
+      {
+        "id": "cc1a87df8a816b2a",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Offensive Bash Scripts.md",
+            "mode": "source"
+          }
+        }
       }
     ],
     "direction": "vertical"
@@ -82,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Bash.md",
+                "file": "Bash Scripting Resources.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,15 +113,15 @@
   },
   "active": "139de91bb6a8687f",
   "lastOpenFiles": [
-    "Bash.md",
-    "Automation.md",
     "Bash Scripting Resources.md",
+    "Offensive Bash Scripts.md",
     "Discovery.md",
+    "Nmap2searchsploit.md",
+    "Linux Discovery Script.md",
+    "Nix-post-exploit-ssh_port_fwd_listning_ports.md",
+    "HTTP Directory Scanning Script.md",
+    "Reconnaissance.md",
     "Sumo.md",
-    "KernelExploitSelectionMethod_Linux.md",
-    "index.md",
-    "Collection.md",
-    "Privilege_Escalation.md",
-    "Using KSplice.md"
+    "KernelExploitSelectionMethod_Linux.md"
   ]
 }

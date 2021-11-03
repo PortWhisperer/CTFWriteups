@@ -1,5 +1,3 @@
-## Nmap2searchsploit
-Sends nmap results to searchsploit and saves output to disk
 ```bash
 # script expects to cat nmap output from file 
 IFS=$'\n'; # instruct bash to use \n as the field separator
@@ -15,6 +13,4 @@ for nmap_outf in $(ls *nmap_output*);
 done;
 rm nmap_applications
 
-
 ```
-#searchsploit #automation

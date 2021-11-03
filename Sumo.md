@@ -21,7 +21,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
     - I wasn'table to figure out a way to identify these files without Nikto, or what method Nikto used to find them, but it may be related to mod_negotiate being in use on the Apache server
 - Gobuster ( #Crawling )
   - Didn't get 200s for pages other than index.html with Seclists Discovery Wordlists
-  - After having success with Nikto, wrote a script at  [Reconnaissance](Reconnaissance.md) which was able to identify this folder, as well as a default "it works! file". 
+  - After having success with Nikto, wrote a script at  [Reconnaissance](Reconnaissance) which was able to identify this folder, as well as a default "it works! file". 
   
   Nothing else was identified. It's clear this is supposed to be considered enough to find the vector.
     1) Nikto
