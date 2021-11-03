@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "KernelExploitSelectionMethod_Linux.md",
+            "file": "Bash.md",
             "mode": "source"
           }
         },
@@ -21,8 +21,8 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "KernelExploitSelectionMethod_Linux.md",
-            "mode": "preview"
+            "file": "Bash.md",
+            "mode": "source"
           }
         },
         "group": "6045ea64a4a69567"
@@ -82,7 +82,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "KernelExploitSelectionMethod_Linux.md",
+                "file": "Bash.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,15 +102,15 @@
   },
   "active": "139de91bb6a8687f",
   "lastOpenFiles": [
+    "Bash.md",
+    "Automation.md",
+    "Bash Scripting Resources.md",
+    "Discovery.md",
+    "Sumo.md",
     "KernelExploitSelectionMethod_Linux.md",
     "index.md",
     "Collection.md",
     "Privilege_Escalation.md",
-    "Using KSplice.md",
-    "Nix-post-exploit-ssh_port_fwd_listning_ports.md",
-    "Reconnaissance.md",
-    "Sumo.md",
-    "Discovery.md",
-    "2021-10-28-01-58-47.png"
+    "Using KSplice.md"
   ]
 }
