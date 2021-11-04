@@ -1,3 +1,4 @@
 # Home
-[[Malware_CTF_write-ups]]
-[[Tactics_Techniques_Procedures]]
+[Malware and CTF write-ups](Malware_CTF_write-ups)
+
+[Tactics, Techniques, and Procedures](Tactics_Techniques_Procedures)
