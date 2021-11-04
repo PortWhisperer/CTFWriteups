@@ -4,30 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "139de91bb6a8687f",
+        "id": "3137d3f7b98ea341",
         "type": "leaf",
-        "dimension": 50.00000000000001,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "index.md",
+            "file": "Malware_CTF_write-ups.md",
             "mode": "source"
           }
-        },
-        "group": "6045ea64a4a69567"
-      },
-      {
-        "id": "869ac19c873e4117",
-        "type": "leaf",
-        "dimension": 50.00000000000001,
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "index.md",
-            "mode": "preview"
-          }
-        },
-        "group": "6045ea64a4a69567"
+        }
       }
     ],
     "direction": "vertical"
@@ -85,7 +70,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "index.md",
+                "file": "Malware_CTF_write-ups.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,17 +88,17 @@
     "width": 640,
     "collapsed": true
   },
-  "active": "139de91bb6a8687f",
+  "active": "3137d3f7b98ea341",
   "lastOpenFiles": [
+    "Malware_CTF_write-ups.md",
+    "Tactics_Techniques_Procedures.md",
+    "MITRE ATT&CK.md",
+    "Bash Scripting Resources.md",
     "index.md",
-    "pentest_frameworks_and_checklists.md",
-    "Privilege_Escalation.md",
-    "Exfiltration.md",
-    "Collection.md",
-    "Gobuster Wrapper.md",
     "Offensive Bash Scripts.md",
-    "Discovery.md",
-    "Automation.md",
-    "Bash Scripting Resources.md"
+    "TTP Development Material.md",
+    "Loopback Port Forwarder.md",
+    "pentest_frameworks_and_checklists.md",
+    "Privilege_Escalation.md"
   ]
 }

@@ -19,7 +19,7 @@ netstat -antpu 2&>/dev/null |grep "127.0.0.1"| awk '{print $4}'|cut -d ":" -f2>l
 
 ```
 
-
+Todo: integrate below tools into above framework
 achieving port forwarding with other tools
 ``` bash
 #ncat 
@@ -30,13 +30,3 @@ ncat -l localhost 8080 --sh-exec "ncat example.org 80"
 
 https://unix.stackexchange.com/questions/293304/using-netcat-for-port-forwarding
 ```
-
-other pivoting/portforwarding resources
-
-https://artkond.com/2017/03/23/pivoting-guide/#socat
-
-
-http://bechtsoudis.com/archive/2012/06/08/using-ssh-socks-proxies-with-msf-reverse-tcp-payloads/index.html
-
-#bash
-offensive bash
