@@ -3,9 +3,9 @@ aliases: [Reconnaissance, Recon]
 ---
 
 # Reconnaissance 
+## TTPs
 
-[Bash scripting resources: for-loops](https://linuxhint.com/bash_loop_list_strings/)
-
+## Tools
 
 
 Tags: #Reconnaissance #Scripts

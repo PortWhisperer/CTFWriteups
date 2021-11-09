@@ -4,7 +4,11 @@ aliases: [Privilege Escalation, privesc]
 # Privilege Escalation
 
 ## Linux
+### TTPs
 [Selecting Linux Kernel Exploits](KernelExploitSelectionMethod_Linux)
 
+### Tools
+
 ## Windows
-TBC
+### TTPs
+### Tools

