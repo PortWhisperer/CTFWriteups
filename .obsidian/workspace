@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "aaadcae67ecccb2b",
+        "id": "3137d3f7b98ea341",
         "type": "leaf",
         "state": {
           "type": "markdown",
@@ -13,10 +13,10 @@
             "mode": "source"
           }
         },
-        "group": "932253f9a1cfa25a"
+        "group": "65b4cc67b0163e71"
       },
       {
-        "id": "830a13c7514a24e9",
+        "id": "bbbadf99720fbff7",
         "type": "leaf",
         "state": {
           "type": "markdown",
@@ -25,7 +25,7 @@
             "mode": "preview"
           }
         },
-        "group": "932253f9a1cfa25a"
+        "group": "65b4cc67b0163e71"
       }
     ],
     "direction": "vertical"
@@ -89,8 +89,19 @@
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
-                "backlinkCollapsed": true,
-                "unlinkedCollapsed": true
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": false
+              }
+            }
+          },
+          {
+            "id": "6595d994780ae704",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
               }
             }
           }
@@ -101,17 +112,17 @@
     "width": 640,
     "collapsed": true
   },
-  "active": "aaadcae67ecccb2b",
+  "active": "3137d3f7b98ea341",
   "lastOpenFiles": [
     "Sumo.md",
-    "Privilege_Escalation.md",
-    "Reconnaissance.md",
-    "Discovery.md",
+    "Defensive_TTPs_Tools.md",
+    "Offensive_TTPs_Tools.md",
     "Tactics_Techniques_Procedures.md",
+    "index.md",
+    "Reconnaissance.md",
+    "Metasploit Scripts.md",
     "Offensive Bash Scripts.md",
-    "Pentest_Checklists.md",
-    "Operational_Checklists.md",
-    "TTP_Reference_Materials_and_Resources.md",
-    "index.md"
+    "echo_chamber.md",
+    "Malware_CTF_write-ups.md"
   ]
 }
