@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Discovery.md",
+            "file": "Lampiao.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Discovery.md",
+                "file": "Lampiao.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -89,9 +89,9 @@
   },
   "active": "2b6f715f7895bd29",
   "lastOpenFiles": [
+    "Lampiao.md",
     "Discovery.md",
     "Reconnaissance.md",
-    "Lampiao.md",
     "Linux Discovery Script.md",
     "Sumo.md",
     "Untitled.md",
