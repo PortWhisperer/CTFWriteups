@@ -22,7 +22,11 @@ msfconsole -x "use exploit/unix/webapp/drupal_drupalgeddon2;\
 ```
  
  #Discovery 
-After  executing a large number of manual enumeration steps, checked other guides. The majority of users achieved root by using the Linux Exploit Suggester script (les.sh), which feels sort of cheap compared to the typically OffSec box (granted, this is vanilla vuln-hub).
+Executed a large number of manual enumeration steps. Most interesting thing (not covered in other guides) was a salted SHA256 hash sitting in /etc/passwd. I attempted to crack it to no avail, using the full seclist password wordlist collection, as well as straight brute forcing w/ an nvidia GTX gpu (which also failed).
+
+
+#PrivilegeEscalation
+The majority of users achieved root by using the Linux Exploit Suggester script (les.sh), which feels sort of cheap compared to the typically OffSec box (granted, this is vanilla vuln-hub).
 
 uname -a output
 ```
@@ -34,8 +38,6 @@ searchsploit 4.4.0 nets the following
 - Several of the Ubuntu related exploits are inapplicable as they apply to version 16.04
 - Chocoboroot fails due to the arch not being applicable (i686)
 
-
-#PrivilegeEscalation
 From attacker computer, set up listener for stable reverse shell (php shell seems to die after executing dirty cow)
 
 ```
